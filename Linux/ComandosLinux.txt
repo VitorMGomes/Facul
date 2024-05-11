@@ -1,0 +1,130 @@
+ls
+--> Listar conteúdos do diretório atual
+
+ls -l
+--> Listar longo
+
+ls -h
+
+ls -R
+--> Os diretorios e diretórios dentro do diretório
+
+ls --all ou ls -a
+
+lscpu
+-->Mostrar informações do processador
+
+ls pastaNome/
+-->Mostrar dentro do diretório sem entrar nele
+
+--------------------------------------------------------------
+
+cd
+--> Conectar ao diretório
+
+cd -
+--> Retornar ao diretório do usuário --> /home/usuario
+
+cd ..
+--> Retornar a um diretório anterior
+
+cd /
+--> Conectar ao diretório raiz
+
+cd /Documentos
+--> Volta diretamente a pasta escolhida (No caso daqui é documentos)
+
+--------------------------------------------------------------
+
+pwd
+--> Caminho a partir do raiz (caminho absoluto)
+
+--------------------------------------------------------------
+
+mkdir nomePasta
+--> Make directory --> Criar um diretório
+
+mkdir nomePasta1 nomePasta2
+--> Cria mais de uma pasta
+
+mkdir -p Cursos/Hardware/Modulo\ 1/
+--> Cria pastas em sequência
+
+mkdir -p "Cursos/Hardware/Modulo 1/"
+
+--------------------------------------------------------------
+
+rmdir nomePasta
+--> Remove directory --> Remove diretório
+(rmdir so funciona com diretorios vazios)
+
+rmdir nomePasta1 nomePasta2
+--> Remove mais de uma pasta selecionada
+(rmdir so funciona com diretorios vazios)
+
+--------------------------------------------------------------
+
+rm nomeArquivo.formato
+--> Remove o arquivo
+
+rm Linux/oi.txt
+--> Remove um arquivo dentro da pasta
+
+rm -rf Pasta/
+!!!!!! --> Apaga a pasta e tudo dentro dela (pastas e )
+
+rm -i
+--> pergunta arquivo por arquivo
+
+rm -I
+--> pergunta 
+
+--------------------------------------------------------------
+
+touch nome.formato (touch comandos.txt)
+--> Criar um arquivo
+--> é possível selecionar o caminho para a criação do arquivo, como por exemplo: touch Cursos/Hardware/Modulo\ 1/exercicio.txt
+
+--------------------------------------------------------------
+
+ls /etc/*.conf
+--> referencia a um conjunto de caracteres. Listar todos com .conf
+
+ls /etc/*x*
+--> referencia a qualquer um que possua um x no meio do nome
+
+ls /etc/f*
+--> referencia a qualquer um que possua um f como primeira letra
+
+(o * substitui 1 ou mais letra)
+
+ls /etc/?as*
+--> arquivos com as como segunda e terceira letra
+
+ls /etc/???a*
+--> arquivo com 4 letra igual a 'a'
+
+--------------------------------------------------------------
+
+ls /etc/f[a-i]*
+--> Primeira letra igual 'f' e a segunda de 'a' ate 'i'
+
+ls /etc/f[a-c,e]*
+--> a até c ou e
+
+ls /etc/f[a,c]*
+--> a ou c
+
+
+
+
+
+
+
+
+
+
+
+
+
+
