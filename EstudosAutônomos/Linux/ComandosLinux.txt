@@ -106,7 +106,7 @@ ls /etc/???a*
 
 --------------------------------------------------------------
 
-ls /etc/f[a-i]*
+ls /etc/f[a-i]* ou ls/etc/f[ai]*
 --> Primeira letra igual 'f' e a segunda de 'a' ate 'i'
 
 ls /etc/f[a-c,e]*
@@ -115,8 +115,35 @@ ls /etc/f[a-c,e]*
 ls /etc/f[a,c]*
 --> a ou c
 
+ls /etc/?[a,e,i,o,u]*
+--> Qualquer um que tenha segunda letra com vogal
 
+ls /etc/*{tab,swd}
+--> Arquivos com o nome terminado em tab ou swd (apenas nome, não formato)
 
+ls /etc/*{tab,swd}*
+--> com esse padrão em qualquer lugar do arquivo
+
+ls /etc/*.{conf,db}
+--> Arquivos com formato conf e db
+
+--------------------------------------------------------------
+
+cat /etc/services
+--> Envia o conteúdo do arquivo para a saida pradrão
+
+cp aulalinux.txt Faculdade/
+--> Copia para dentro de faculdade (copia e n move)
+
+mv aulalinux.txt Linux/
+--> move o arquivo para dentro da pasta Linux
+
+EXEMPLO:
+cp /etc/*.conf temporario/
+--> Copiou todos os arquivos.conf da pasta etc para a temporario (Copiou, n moveu(Mas funciona com o mv))
+
+mv linux/ Linux
+--> moveu a pasta linux para dentro da mesma pasta alterando o nome (rename)
 
 
 
