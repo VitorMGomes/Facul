@@ -1,32 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <stdbool.h>
+#include <string.h>
 
-#define MAX 1000
-
-bool verificarPal(char input[], int len)
-{
-    bool is = true;
-
-    for(int i = 0; i < len; i++)
-    {
-        if(input[i] != input[len - 1 - i])
-        {
-            is = false;
-            i = len;
-        }
-    }
-
-
-    return is;
-}
-
-bool stop(char input[], int len)
+bool stop(char input[])
 {
     bool stop = false;
-
-    if(len == 3 && input[0] == 'F' && input[1] == 'I' && input[2] == 'M')
+    if( strlen(input) == 3  && input[0] == 'F' && input[1] == 'I' && input[2] == 'M')
     {
         stop = true;
     }
@@ -34,23 +14,42 @@ bool stop(char input[], int len)
     return stop;
 }
 
-int main()
+void verificarPal(char input[])
 {
-
-    char input[MAX];
-
-    fgets(input, MAX, stdin);
-
     int len = strlen(input);
+    bool is = true;
 
-    while(stop(input, len))
+    for(int i = 0; i < len; i++)
     {
-        bool is = verificarPal(input, len);
-
-        printf(is ? "SIM" : "NAO");
-
-        fgets(input, MAX, stdin);
+        if(input[i] != input[len - i - 1])
+        {
+            is = false;
+            i = len;
+        }
     }
 
+    if(is)
+    {
+        puts("SIM");
+    }
+    else
+    {
+        puts("NAO");
+    }
+}
 
+int main()
+{
+    char input[1000];
+
+    scanf(" %1000[^\n]", input);
+
+    while(!stop(input))
+    {
+        verificarPal(input);
+
+        scanf(" %1000[^\n]", input);
+    }
+
+    return 0;
 }

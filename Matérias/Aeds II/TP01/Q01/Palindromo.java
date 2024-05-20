@@ -35,11 +35,7 @@ public class Palindromo {
 
         while (!stop(input)) {
 
-            if (isPal(input)) {
-                System.out.println("SIM");
-            } else {
-                System.out.println("NAO");
-            }
+            MyIO.println(isPal(input)? "SIM" : "NAO");
 
             input = scanf.nextLine();
         }
