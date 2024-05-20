@@ -145,6 +145,9 @@ cp /etc/*.conf temporario/
 mv linux/ Linux
 --> moveu a pasta linux para dentro da mesma pasta alterando o nome (rename)
 
+for i in $(seq -w 1 15); do mkdir Q$i; done
+--> Cria pastas Q01 a Q15
+
 
 
 
