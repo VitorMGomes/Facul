@@ -1,7 +1,5 @@
 import java.util.*;
 
-import javax.sound.sampled.SourceDataLine;
-
 public class PesquisaSequencial
 {
     public static boolean PsqSequencial(int[] array, int x)
