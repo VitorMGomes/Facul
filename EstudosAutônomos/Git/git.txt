@@ -1,0 +1,53 @@
+git config --global --list
+--> mostra as configurações globais do git
+
+git config --global user.name "NOME"
+--> cria um usuário para o git
+
+git config --global user.email "nome@mail.com"
+--> seta o email para o usuário
+
+git init
+--> inicializa o repósitorio na pasta que você está
+
+git status
+--> auto-explicativo
+
+git add "filename"
+--> coloca o arquivo para ser rastreado --> pronto para ser commitado
+
+git rm --cached np.c
+--> reverte o add
+
+git add .
+--> Adiciona tudo
+
+git commit -m "mensagem"
+
+git log --oneline
+--> histórico de commits
+
+git revert "commit nome/cod"
+--> reverte o commit
+
+git reset "idcommit"
+--> volta até o commit desejado
+
+gitignore 
+--> arquivo para listar todas as pastas e arquivos que voce não quer que o git liste
+
+git branch test
+--> cria o test baseado no main
+
+git chechout test
+--> muda para o branch test
+
+git merge "nome da branch"
+--> se estiver na main, da merge dela com o "nome da branch"
+
+git push "chave" main 
+--> joga tudo para dentro da main do prjeto no github
+
+git remote add origin "chave ssh"
+--> cria um atalho 
+----> git push origin
