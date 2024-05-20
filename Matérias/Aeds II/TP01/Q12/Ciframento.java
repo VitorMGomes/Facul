@@ -47,23 +47,22 @@ public class Ciframento
             ciframentoRec(input, ++i, len, saida);
         }
         else{
-            MyIO.println(saida);
+            System.out.println(saida);
         }
         
     }
 
     public static void main(String[] args) {
         
-        //Scanner scanf = new Scanner(System.in);
+        Scanner scanf = new Scanner(System.in);
 
-        //String input = scanf.nextLine();
-        String input = MyIO.readLine();
+        String input = scanf.nextLine();
         while(!stop(input))
         {
             ciframentoRec(input, 0, input.length(), "");
-            input = MyIO.readLine();
+            input = scanf.nextLine();
         }
 
-        //scanf.close();
+        scanf.close();
     }
 }

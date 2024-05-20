@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class IsRecursivo {
     
     public static boolean stop(String input)
@@ -100,7 +102,8 @@ public class IsRecursivo {
 
     public static void main(String args[])
     {
-        String input = MyIO.readLine();
+        Scanner scanf = new Scanner(System.in);
+        String input = scanf.nextLine();
 
 
         while(!stop(input))
@@ -109,17 +112,19 @@ public class IsRecursivo {
 
             int len = input.length();
 
-            MyIO.print(verificarVogal(input, len, true, 0) ? "SIM " : "NAO ");
+            System.out.print(verificarVogal(input, len, true, 0) ? "SIM " : "NAO ");
 
-            MyIO.print(verificarConso(input, len, true, 0) ? "SIM " : "NAO ");
+            System.out.print(verificarConso(input, len, true, 0) ? "SIM " : "NAO ");
     
-            MyIO.print(verificarInt(input, len, true, 0) ? "SIM " : "NAO ");
+            System.out.print(verificarInt(input, len, true, 0) ? "SIM " : "NAO ");
     
-            MyIO.println(verificarReal(input, len, true, 0, 0) ? "SIM" : "NAO");
+            System.out.println(verificarReal(input, len, true, 0, 0) ? "SIM" : "NAO");
 
 
-            input = MyIO.readLine();
+            input = scanf.nextLine();
 
         }
+
+        scanf.close();
     }
 }
