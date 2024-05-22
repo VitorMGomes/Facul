@@ -61,15 +61,38 @@ public class VanM {
         return resp;
     }
 
+    public static void ordenar(int num){
+
+        for(int i = 0; i < num - 1; i++)
+        {
+            int menor = i;
+
+            for(int j = i + 1; j < num; j++)
+            {
+                if(comparar(alunos[i], alunos[j]))
+                {
+                    menor = j;
+                }
+            }
+        
+            Aluno tmp = alunos[i];
+
+            alunos[i] = alunos[menor];
+
+            alunos[menor] = tmp;
+
+        }
+    }
+
     public static void split(String string, int i) {
 
         String data[] = string.split(" ");
 
         Aluno x = new Aluno();
 
-        x.setDistancia(Integer.parseInt(data[0]));
+        x.setNome(data[0]);
         x.setRegiao(data[1].charAt(0));
-        x.setNome(data[2]);
+        x.setDistancia(Integer.parseInt(data[2]));
 
         alunos[i] = x;
 
@@ -87,6 +110,13 @@ public class VanM {
         for (int i = 0; i < num; i++) {
             String string = scanf.nextLine();
             split(string, i);
+        }
+
+        ordenar(num);
+
+        for (int i = 0; i < num; i++)
+        {
+            System.out.println(alunos[i].getNome() + " " + alunos[i].getRegiao() + " " + alunos[i].getDistancia());
         }
 
         scanf.close();
