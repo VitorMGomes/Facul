@@ -3,14 +3,146 @@ import java.io.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
-class Celula
-{
-    
+class Celula {
+    Character personagem;
+
+    Celula prox;
+
+    public Celula() {
+        this.personagem = null;
+
+        this.prox = null;
+    }
+
+    public Celula(Character x) {
+        this.personagem = x;
+
+        this.prox = null;
+    }
+
 }
 
-class ListaFlex
-{
+class ListaFlex {
+    private Celula primeiro, ultimo;
 
+    public ListaFlex() {
+        primeiro = ultimo = new Celula();
+    }
+
+    public int getTamanho() {
+        int tamanho = 0;
+        for (Celula i = primeiro.prox; i != null; i = i.prox, tamanho++)
+            ;
+
+        return tamanho;
+    }
+
+    public void inserirFim(Character x) {
+        ultimo.prox = new Celula(x);
+        ultimo = ultimo.prox;
+    }
+
+    public void inserirInicio(Character x) {
+        Celula tmp = new Celula(x);
+        tmp.prox = primeiro.prox;
+        primeiro.prox = tmp;
+
+        if (primeiro == ultimo) {
+            ultimo = tmp;
+        }
+
+        tmp = null;
+    }
+
+    public void inserir(Character x, int pos) throws Exception {
+        int tamanho = getTamanho();
+
+        if (pos < 0 || pos > tamanho) {
+            throw new Exception("Erro ao inserir. Posição inválida");
+        } else if (pos == 0) {
+            inserirInicio(x);
+        } else if (pos == tamanho) {
+            inserirFim(x);
+        } else {
+            Celula i = primeiro;
+
+            for (int j = 0; j < pos - 1; j++, i = i.prox)
+                ;
+            Celula tmp = new Celula(x);
+
+            tmp.prox = i.prox;
+            i.prox = tmp;
+            tmp = i = null;
+
+        }
+    }
+
+    public Character removerFim() throws Exception {
+        if (primeiro == ultimo) {
+            throw new Exception("Lista vazia");
+        }
+        Celula i;
+
+        for (i = primeiro.prox; i.prox != ultimo; i = i.prox)
+            ;
+
+        Character x = ultimo.personagem;
+        ultimo = i;
+        i = ultimo.prox = null;
+
+        return x;
+    }
+
+    public Character removerInicio() throws Exception {
+        if (primeiro == ultimo) {
+            throw new Exception("Lista vazia");
+        }
+
+        Character x = primeiro.prox.personagem;
+
+        primeiro.prox = primeiro.prox.prox;
+
+        return x;
+
+    }
+
+    public Character remover(int pos) throws Exception {
+        int tamanho = getTamanho();
+        Character x;
+
+        if (primeiro == ultimo || pos < 0 || pos >= tamanho) {
+            throw new Exception("Posição fora da lista");
+        } else if (pos == 0) {
+            x = removerInicio();
+        } else if (pos == tamanho - 1) {
+            x = removerFim();
+        } else {
+            Celula i = primeiro;
+
+            for (int j = 0; j < pos; j++, i = i.prox)
+                ;
+
+            Celula tmp = i.prox;
+            x = tmp.personagem;
+
+            i.prox = tmp.prox;
+
+            tmp.prox = null;
+            i = tmp = null;
+        }
+
+        return x;
+    }
+
+    public void mostrar() {
+        int j = 0;
+        for (Celula i = primeiro.prox; i != null; i = i.prox, j++) {
+            System.out.print("[");
+            System.out.print(j);
+            i.personagem.status();
+            System.out.print("\n");
+        }
+    }
 }
 
 class Character {
@@ -358,7 +490,7 @@ public class Q5 {
 
     public static ArrayList<Character> csv = new ArrayList<Character>();
 
-    public static Pilha stack = new Pilha(100);
+    public static ListaFlex lista = new ListaFlex();
 
     public static void readDB() throws Exception {
 
@@ -387,7 +519,7 @@ public class Q5 {
 
             if (a.getId().equals(id)) {
 
-                stack.push(a);
+                lista.inserirFim(a);
             }
         }
 
@@ -425,26 +557,45 @@ public class Q5 {
 
         for (int i = 0; i < operacoes; i++) {
             String line = scanf.nextLine();
+            int pos;
 
-            // II, RI / Pop, push
+            // IF, II, I*, RF, RI, R*
 
-            String[] data = line.split(" ");
+            if (line.charAt(1) == '*') {
+                String[] data = line.split(" ");
 
-            if(line.charAt(0) == 'I')
-            {
-                stack.push(encontrar(data[1]));
-            }
-            else{
-                Character x;
+                pos = Integer.parseInt(data[1]);
 
-                x = stack.pop();
+                if (data[0].equals("R*")) {
+                    Character removido = lista.remover(pos);
 
-                System.out.println("(R) " + x.getName());
+                    System.out.println("(R) " + removido.getName());
+                } else if (data[0].equals("I*")) {
+                    lista.inserir(encontrar(data[2]), pos);
+                }
+            } else {
+                String[] data = line.split(" ");
+
+                if (data[0].equals("RI")) {
+                    Character removido = lista.removerInicio();
+
+                    System.out.println("(R) " + removido.getName());
+                }
+
+                else if (data[0].equals("RF")) {
+                    Character removido = lista.removerFim();
+
+                    System.out.println("(R) " + removido.getName());
+                } else if (data[0].equals("II")) {
+                    lista.inserirInicio(encontrar(data[1]));
+                } else {
+                    lista.inserirFim(encontrar(data[1]));
+                }
             }
 
         }
 
-        stack.mostrar();
+        lista.mostrar();
 
         scanf.close();
 
