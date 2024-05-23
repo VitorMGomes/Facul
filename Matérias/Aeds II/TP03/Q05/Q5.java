@@ -9,9 +9,7 @@ class Celula {
     Celula prox;
 
     public Celula() {
-        this.personagem = null;
-
-        this.prox = null;
+        this(null);
     }
 
     public Celula(Character x) {
@@ -64,10 +62,9 @@ class ListaFlex {
         } else if (pos == tamanho) {
             inserirFim(x);
         } else {
+            
             Celula i = primeiro;
-
-            for (int j = 0; j < pos - 1; j++, i = i.prox)
-                ;
+            for (int j = 0; j < pos; j++, i = i.prox);
             Celula tmp = new Celula(x);
 
             tmp.prox = i.prox;
