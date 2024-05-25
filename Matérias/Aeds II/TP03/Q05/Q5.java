@@ -491,7 +491,7 @@ public class Q5 {
 
     public static void readDB() throws Exception {
 
-        Scanner reader = new Scanner(new FileReader("/tmp/characters.csv"));
+        Scanner reader = new Scanner(new FileReader("characters.csv"));
 
         reader.nextLine();// pulando a primeira linha do csv
 
