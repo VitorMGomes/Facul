@@ -7,7 +7,7 @@
 
 #define sTAM 200
 #define aNTAM 300
-#define MAXTAM 5 
+#define MAXTAM (int)(5 + 1)
 
 bool toBool(char *input)
 {
@@ -310,24 +310,9 @@ Character encontrar(char *id, Character *array)
 //-----------------------------------------------------------------------------//
 //-----------------------------------------------------------------------------//
 //-----------------------------------------------------------------------------//
-Character fila[MAXTAM + 1];
-int ultimo = 0;
+Character lista[MAXTAM];
 int primeiro = 0;
-
-
-
-
-void enqueue(Character x)
-{
-    if (((ultimo + 1) % MAXTAM) == primeiro)
-    {
-        puts("ERRO ENQUEUE");
-        exit(1);
-    }
-
-    fila[ultimo] = x;
-    ultimo = (ultimo + 1) % MAXTAM;
-}
+int ultimo = 0;
 
 Character dequeue()
 {
@@ -336,36 +321,52 @@ Character dequeue()
     {
         puts("ERRO DEQUEUE");
         exit(1);
+        // return lista[0];
     }
 
-    Character x = fila[primeiro];
+    Character x = lista[primeiro];
     primeiro = (primeiro + 1) % MAXTAM;
 
     return x;
+}
+void enqueue(Character x)
+{
+    if (((ultimo + 1) % MAXTAM) == primeiro)
+    {
+        dequeue();
+    }
+
+    lista[ultimo] = x;
+    ultimo = (ultimo + 1) % MAXTAM;
+
 }
 
 int calcMedia()
 {
     int media = 0;
-
-    for (int i = primeiro; i != ultimo; i = (i + 1) % MAXTAM)
+    int i;
+    int contador = 0;
+    for (i = primeiro; i != ultimo; i = (i + 1) % MAXTAM)
     {
-        media += fila[i].yearOfBirth;
+        media += lista[i].yearOfBirth;
+        contador++;
     }
 
-    media = media / 5;
+    if(contador > 0) media = media / contador;
+
+    // printf("%i\n", contador);
 
     return media;
 }
 
 void mostrar()
 {
-
+    int mostrador = 0;
     printf("[ Head ]\n");
-    for (int i = primeiro; i != ultimo; i = ((i + 1) % MAXTAM))
-    {
-        printf("[%i", i);
-        status(fila[i]);
+    for (int i = primeiro; i != ultimo; i = ((i + 1) % MAXTAM))   {
+        printf("[%i", mostrador);
+        status(lista[i]);
+        mostrador++;
     }
     printf("[ Tail ]");
 }
@@ -387,6 +388,7 @@ int main()
     {
         wizard = encontrar(id, listaCSV);
         enqueue(wizard);
+        printf(">> Year Birthday Average: %i\n", calcMedia());
     }
 
     // mostrar();
@@ -396,28 +398,30 @@ int main()
 
     for (int i = 0; i < n; i++)
     {
-        char comando;
-        scanf("%c", comando);
+        char comando[1];
+        scanf("%s", comando);
         getchar();
 
-        // I, R
 
-        if (comando == 'I')
+        //printf("comando: %c", comando);
+
+        // // I, R
+
+        if (strcmp(comando, "I") == 0)
         {
-            char id[100];
-            scanf("%s", id);
+            char nome[100];
+            scanf("%s", nome);
+            // getchar();
 
-            enqueue(encontrar(id, listaCSV));
+            enqueue(encontrar(nome, listaCSV));
+            printf(">> Year Birthday Average: %i\n", calcMedia());
         }
         else
         {
-            char id[100];
-            scanf("%s", id);
-
-            dequeue();
+            Character x = dequeue();
+            printf("(R) %s\n", x.name);
         }
 
-        printf(">> Year Birthday Average: %i\n", calcMedia());
     }
 
     mostrar();
