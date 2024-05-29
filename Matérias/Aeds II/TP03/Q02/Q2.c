@@ -9,132 +9,6 @@
 #define aNTAM 300
 #define MAXTAM 100
 
-void status();
-
-Character lista[MAXTAM];
-int n = 0;
-
-
-void inserirInicio(Character x)
-{
-    if(n >= MAXTAM)
-    {
-        puts("ERRO II");
-        exit(1);
-    }
-
-    for(int i = n; i > 0; i--)
-    {
-        lista[i] = lista[i - 1];
-    }
-
-    lista[0] = x;
-    n++;
-}
-
-void inserirFim(Character x)
-{
-    if (n >= MAXTAM)
-    {
-        puts("ERRO IF");
-        exit(1);
-    }
-
-    lista[n] = x;
-    n++;
-    
-}
-
-void inserir(int pos, Character x)
-{
-    if(n >= MAXTAM || pos < 0 || pos > n)
-    {
-        puts("ERRO I");
-        exit(1);
-    }
-
-    int i;
-
-    for(i = n; i > pos; i--)
-    {
-        lista[i] = lista[i - 1];
-    }
-
-    lista[pos] = x;
-    n++;
-}
-
-Character removerInicio()
-{
-
-    if(n == 0)
-    {
-        puts("ERRO RI");
-        exit(1);
-    }
-
-    Character x = lista[0];
-    n--;
-
-    for(int i = 0; i < n; i++)
-    {
-        lista[i] = lista[i + 1];
-    }
-
-
-    return x;
-}
-
-Character removerFim()
-{
-    if(n == 0)
-    {
-        puts("ERRO RF");
-        exit(1);
-    }
-
-    return lista[--n];
-}
-
-Character remover(int pos)
-{
-    if(n == 0|| pos < 0 || pos > n)
-    {
-        puts("ERRO R");
-        exite(1);
-    }
-
-    Character x = lista[pos];
-
-    for(int i = pos; i < n; i++)
-    {
-        lista[i] = lista[i + 1];
-    }
-
-    return x;
-
-}
-
-
-void mostrar (){
-   int i;
-
-   
-
-   for(i = 0; i < n; i++){
-
-    printf("[%i", n);
-    staus();
-
-    
-   }
-
-   printf("]\n");
-}
-//-----------------------------------------------------------------------------//
-//-----------------------------------------------------------------------------//
-//-----------------------------------------------------------------------------//
-
 bool toBool(char *input)
 {
     return strcmp(input, "VERDADEIRO") == 0;
@@ -369,7 +243,7 @@ void printarAlternativeNames(char *string)
 
 void status(Character x)
 {
-    printf(" ##  %s ## ", x.id);
+    printf(" ## %s ## ", x.id);
     printf("%s ## ", x.name);
     printarAlternativeNames(x.alternativeNames);
     printf("%s ## ", x.house);
@@ -394,7 +268,7 @@ bool stop(char *id)
     return strcmp(id, "FIM") != 0;
 }
 
-void importDB(Character lista[], char *fileName)
+void importDB(Character listaCSV[], char *fileName)
 {
     FILE *arq = fopen(fileName, "r");
 
@@ -412,7 +286,7 @@ void importDB(Character lista[], char *fileName)
     {
         int pos = (int)strcspn(line, "\n\r");
         line[pos] = '\0';
-        lista[i] = ler(line);
+        listaCSV[i] = ler(line);
         // status(lista[i]);
         // printf("Linha: %s\n", line);
     }
@@ -435,6 +309,131 @@ Character encontrar(char *id, Character *array)
     }
 }
 
+//-----------------------------------------------------------------------------//
+//-----------------------------------------------------------------------------//
+Character lista[MAXTAM];
+int tamanhoLista = 0;
+
+
+void inserirInicio(Character x)
+{
+    if(tamanhoLista >= MAXTAM)
+    {
+        puts("ERRO II");
+        exit(1);
+    }
+
+    for(int i = tamanhoLista; i > 0; i--)
+    {
+        lista[i] = lista[i - 1];
+    }
+
+    lista[0] = x;
+    tamanhoLista++;
+}
+
+void inserirFim(Character x)
+{
+    if (tamanhoLista >= MAXTAM)
+    {
+        puts("ERRO IF");
+        exit(1);
+    }
+
+    lista[tamanhoLista] = x;
+    tamanhoLista++;
+    
+}
+
+void inserir(int pos, Character x)
+{
+    if(tamanhoLista >= MAXTAM || pos < 0 || pos > tamanhoLista)
+    {
+        puts("ERRO I");
+        exit(1);
+    }
+
+    int i;
+
+    for(i = tamanhoLista; i > pos; i--)
+    {
+        lista[i] = lista[i - 1];
+    }
+
+    lista[pos] = x;
+    tamanhoLista++;
+}
+
+Character removerInicio()
+{
+
+    if(tamanhoLista == 0)
+    {
+        puts("ERRO RI");
+        exit(1);
+    }
+
+    Character x = lista[0];
+    tamanhoLista--;
+
+    for(int i = 0; i < tamanhoLista; i++)
+    {
+        lista[i] = lista[i + 1];
+    }
+
+
+    return x;
+}
+
+Character removerFim()
+{
+    if(tamanhoLista == 0)
+    {
+        puts("ERRO RF");
+        exit(1);
+    }
+
+    return lista[--tamanhoLista];
+}
+
+Character remover(int pos)
+{
+    if(tamanhoLista == 0|| pos < 0 || pos > tamanhoLista)
+    {
+        puts("ERRO R");
+        exit(1);
+    }
+
+    Character x = lista[pos];
+
+    for(int i = pos; i < tamanhoLista; i++)
+    {
+        lista[i] = lista[i + 1];
+    }
+
+    tamanhoLista--;
+
+    return x;
+
+}
+
+
+void mostrar (){
+   int i;
+
+   
+
+   for(i = 0; i < tamanhoLista; i++){
+
+    printf("[%i", i);
+    status(lista[i]);
+   }
+
+}
+//-----------------------------------------------------------------------------//
+//-----------------------------------------------------------------------------//
+//-----------------------------------------------------------------------------//
+
 int main()
 {
 
@@ -448,8 +447,11 @@ int main()
     for (;stop(readString(id));)
     {
         wizard = encontrar(id, listaCSV);
-        inserirInicio(wizard);
+        inserirFim(wizard);
+
     }
+
+    //mostrar();
 
 
     int n;
@@ -459,42 +461,63 @@ int main()
     {
         char comando[2];
         scanf("%s", comando);
+        getchar();
         
         // IF, II, I* // RF, RI, R* 
 
-        if(strcmp(comando, "R*"))
-        {
-            int pos;
-            scanf("%i", &pos);
-
-            scanf
-        }
-        else if(strcmp(comando, "I*"))
+        if(strcmp(comando, "R*") == 0)
         {
             int pos;
             scanf("%i", &pos);
 
 
+            Character x = remover(pos);
+
+            printf("(R) %s\n", x.name);
         }
-        else if(strcmp(comando, "II"))
+        else if(strcmp(comando, "I*") == 0)
         {
-            
+            int pos;
+            scanf("%i", &pos);
+
+
+            char id[100];
+            scanf("%s", id);
+
+            inserir(pos, encontrar(id, listaCSV));
+
         }
-        else if(strcmp(comando, "IF"))
+        else if(strcmp(comando, "II") == 0)
         {
-            
+            char id[100];
+            scanf("%s", id);
+
+            inserirInicio(encontrar(id, listaCSV));
         }
-        else if(strcmp(comando, "RI"))
+        else if(strcmp(comando, "IF") == 0)
         {
-            
+            char id[100];
+            scanf("%s", id);
+
+            inserirFim(encontrar(id, listaCSV));
+        }
+        else if(strcmp(comando, "RI") == 0)
+        {
+            Character x = removerInicio();
+            printf("(R) %s\n", x.name);
         }
         else //RF
         {
-            
+            Character x = removerFim();
+
+            printf("(R) %s\n", x.name);
         }
 
 
     }
+
+
+    mostrar();
 
 
 }
