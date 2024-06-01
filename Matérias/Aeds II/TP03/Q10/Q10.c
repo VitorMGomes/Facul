@@ -341,7 +341,8 @@ void push(Character x)
 Character pop()
 {
     if (topo == NULL) {
-      errx(1, "Erro ao remover!");
+      puts("Erro ao remover!");
+      exit(1);
    }
 
    Character resp = topo->x;
@@ -375,7 +376,7 @@ int main()
 
     Character listaCSV[404];
 
-    importDB(listaCSV, "/tmp/characters.csv");
+    importDB(listaCSV, "characters.csv");
     char id[100];
 
     Character wizard;
