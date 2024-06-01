@@ -439,7 +439,7 @@ int main()
 
     Character listaCSV[404];
 
-    importDB(listaCSV, "/tmp/characters.csv");
+    importDB(listaCSV, "characters.csv");
     char id[100];
 
     Character wizard;
