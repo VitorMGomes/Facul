@@ -1,19 +1,19 @@
 import java.util.*;
 
 class Celula{
-    public int elemento;
+    public int x;
     public Celula esq;
     public Celula dir;
     public Celula sup;
     public Celula inf;
     
     Celula(){
-        elemento = 0;
+        x = 0;
         esq = dir = sup = inf = null;
     }
 
     Celula (Celula esq, Celula dir, Celula sup, Celula inf){
-         this.elemento = 0;
+         this.x = 0;
          this.esq = esq;
          this.dir = dir;
          this.sup = sup;
@@ -21,8 +21,8 @@ class Celula{
     }
 
 
-    Celula (int elemento, Celula esq, Celula dir, Celula sup, Celula inf){
-         this.elemento = elemento;
+    Celula (int x, Celula esq, Celula dir, Celula sup, Celula inf){
+         this.x = x;
          this.esq = esq;
          this.dir = dir;
          this.sup = sup;
@@ -75,7 +75,7 @@ class Matriz{
         Matriz resultado = new Matriz(lin, col);
         for(Celula i1 = inicio, i2 = mat.inicio, iF = resultado.inicio; i1 != null; i1 = i1.dir, i2 = i2.dir, iF = iF.dir){
             for(Celula j1 = i1, j2 = i2, jF = iF; j1 != null; j1 = j1.inf, j2 = j2.inf, jF = jF.inf){
-                jF.elemento = j1.elemento + j2.elemento;
+                jF.x = j1.x + j2.x;
             }
         }
         return resultado;
@@ -89,7 +89,7 @@ class Matriz{
             Celula iFtemp = iF;
             while(i2 != null){
                 for(Celula j1 = i1, j2 = i2; j1 != null; j1 = j1.dir, j2 = j2.inf){
-                    iFtemp.elemento += j1.elemento * j2.elemento;
+                    iFtemp.x += j1.x * j2.x;
                 }
                 i2 = i2.dir;
                 iFtemp = iFtemp.dir;
@@ -102,14 +102,14 @@ class Matriz{
     public void print(){
         for(Celula l = inicio; l != null; l = l.inf){
             for(Celula c = l; c != null; c = c.dir){
-                System.out.print(c.elemento + " ");
+                System.out.print(c.x + " ");
             }
             System.out.println();        }
     }
     public void printDiagonalPrincipal(){
         Celula i = inicio;
         while(i != null){
-            System.out.print(i.elemento + " ");
+            System.out.print(i.x + " ");
             if(i.dir != null){
                 i = i.dir;
                 i = i.inf;
@@ -122,7 +122,7 @@ class Matriz{
         Celula i = inicio;
         for(; i.dir != null; i = i.dir);
         while(i != null){
-            System.out.print(i.elemento + " ");
+            System.out.print(i.x + " ");
             if(i.esq != null){
                 i = i.esq;
                 i = i.inf;
@@ -148,14 +148,14 @@ class Matriz{
             i = i.dir;
             col--;
         }
-        rem = i.elemento;
-        i.elemento = x;
+        rem = i.x;
+        i.x = x;
         return rem;
     }
     public void read(Scanner scanf){
         for(Celula l = inicio; l != null; l = l.inf){
             for(Celula c = l; c != null; c = c.dir){
-                c.elemento = scanf.nextInt();
+                c.x = scanf.nextInt();
             }
         }
     }
@@ -165,20 +165,19 @@ class Q9{
     public static void main(String[] args){
 
         Scanner scanf = new Scanner(System.in);
-        int qtdeTestes = scanf.nextInt();
+        int n = scanf.nextInt();
         try{
-            while(qtdeTestes-- > 0){
-                //leitura das matrizes
-                Matriz matA = new Matriz(scanf.nextInt(), scanf.nextInt());
-                matA.read(scanf);
-                Matriz matB = new Matriz(scanf.nextInt(), scanf.nextInt());            
-                matB.read(scanf);
+            while(n-- > 0){
+                
+                Matriz matriz1 = new Matriz(scanf.nextInt(), scanf.nextInt());
+                matriz1.read(scanf);
+                Matriz matriz2 = new Matriz(scanf.nextInt(), scanf.nextInt());            
+                matriz2.read(scanf);
 
-                //print testes
-                matA.printDiagonalPrincipal();
-                matA.printDiagonalSecundaria();
-                (matA.soma(matB)).print();
-                (matA.multiplicacao(matB)).print();
+                matriz1.printDiagonalPrincipal();
+                matriz1.printDiagonalSecundaria();
+                (matriz1.soma(matriz2)).print();
+                (matriz1.multiplicacao(matriz2)).print();
             }
         } catch (Exception e){
             System.out.println("ERRO: "+ e.getMessage());
