@@ -241,25 +241,25 @@ void printarAlternativeNames(char *string)
     printf(" ## ");
 }
 
-void status(Character x)
+void status(Character *x)
 {
-    printf(" ## %s ## ", x.id);
-    printf("%s ## ", x.name);
-    printarAlternativeNames(x.alternativeNames);
-    printf("%s ## ", x.house);
-    printf("%s ## ", x.ancestry);
-    printf("%s ## ", x.species);
-    printf("%s ## ", x.patronus);
-    printf("%s ## ", x.hogwartsStaff ? "true" : "false");
-    printf("%s ## ", x.hogwartsStudent ? "true" : "false");
-    printf("%s ## ", x.actorName);
-    printf("%s ## ", x.alive ? "true" : "false");
-    printf("%02d-%02d-%d ## ", x.dateOfBirth.dia, x.dateOfBirth.mes, x.dateOfBirth.ano);
-    printf("%d ## ", x.yearOfBirth);
-    printf("%s ## ", x.eyeColour);
-    printf("%s ## ", x.gender);
-    printf("%s ## ", x.hairColour);
-    printf("%s]", x.wizard ? "true" : "false");
+    printf(" ## %s ## ", x->id);
+    printf("%s ## ", x->name);
+    printarAlternativeNames(x->alternativeNames);
+    printf("%s ## ", x->house);
+    printf("%s ## ", x->ancestry);
+    printf("%s ## ", x->species);
+    printf("%s ## ", x->patronus);
+    printf("%s ## ", x->hogwartsStaff ? "true" : "false");
+    printf("%s ## ", x->hogwartsStudent ? "true" : "false");
+    printf("%s ## ", x->actorName);
+    printf("%s ## ", x->alive ? "true" : "false");
+    printf("%02d-%02d-%d ## ", x->dateOfBirth.dia, x->dateOfBirth.mes, x->dateOfBirth.ano);
+    printf("%d ## ", x->yearOfBirth);
+    printf("%s ## ", x->eyeColour);
+    printf("%s ## ", x->gender);
+    printf("%s ## ", x->hairColour);
+    printf("%s]", x->wizard ? "true" : "false");
     printf("\n");
 }
 
@@ -310,66 +310,78 @@ Character encontrar(char *id, Character *array)
 //-----------------------------------------------------------------------------//
 //-----------------------------------------------------------------------------//
 //-----------------------------------------------------------------------------//
-Character lista[MAXTAM];
-int primeiro = 0;
-int ultimo = 0;
-
-Character dequeue()
+typedef struct Celula
 {
+    Character elemento;
+    struct Celula *prox;
+} Celula;
 
+Celula *novaCelula(Character elemento)
+{
+    Celula *nova = (Celula *)malloc(sizeof(Celula));
+    nova->elemento = elemento;
+    nova->prox = NULL;
+    return nova;
+}
+
+Celula *primeiro;
+Celula *ultimo;
+int n = 0;
+
+int calcMedia() {
+    int total = 0;
+    int i = 0;
+    Celula* j;
+
+    for (j = primeiro->prox; j != NULL; j = j->prox) {
+       total += j->elemento.yearOfBirth;
+       i++;
+    }
+
+
+    int mediaInit = total / i;
+    int mediaFinal = round(mediaInit);
+
+    return mediaFinal;
+}
+
+Character dequeue() {   
     if (primeiro == ultimo)
     {
-        puts("ERRO DEQUEUE");
+        printf("Erro ao remover!\n");
         exit(1);
-        // return lista[0];
     }
-
-    Character x = lista[primeiro];
-    primeiro = (primeiro + 1) % MAXTAM;
-
-    return x;
+    Celula *tmp = primeiro;
+    primeiro = primeiro->prox;
+    Character resp = primeiro->elemento;
+    tmp->prox = NULL;
+    free(tmp);
+    tmp = NULL;
+    n--;
+    return resp;
 }
+
 void enqueue(Character x)
 {
-    if (((ultimo + 1) % MAXTAM) == primeiro)
-    {
+    if(n == 5){
         dequeue();
     }
-
-    lista[ultimo] = x;
-    ultimo = (ultimo + 1) % MAXTAM;
-
+    ultimo->prox = novaCelula(x);
+    ultimo = ultimo->prox;
+    n++;
 }
 
-int calcMedia()
-{
-    int media = 0;
-    int i;
-    int contador = 0;
-    for (i = primeiro; i != ultimo; i = (i + 1) % MAXTAM)
-    {
-        media += lista[i].yearOfBirth;
-        contador++;
+void mostrar(){
+    Celula *i;
+    int count = 0;
+    printf(" [ Head ]\n");
+    for (i = primeiro->prox; i != NULL; i = i->prox, count++) {
+        printf("[%i", count);
+        status(&i->elemento);
     }
-
-    if(contador > 0) media = media / contador;
-
-    // printf("%i\n", contador);
-
-    return media;
+    printf(" [ Tail ]");
 }
 
-void mostrar()
-{
-    int mostrador = 0;
-    printf("[ Head ]\n");
-    for (int i = primeiro; i != ultimo; i = ((i + 1) % MAXTAM))   {
-        printf("[%i", mostrador);
-        status(lista[i]);
-        mostrador++;
-    }
-    printf("[ Tail ]");
-}
 //-----------------------------------------------------------------------------//
 //-----------------------------------------------------------------------------//
 //-----------------------------------------------------------------------------//
@@ -379,8 +391,12 @@ int main()
 
     Character listaCSV[404];
 
-    importDB(listaCSV, "/tmp/characters.csv");
+    primeiro = novaCelula(listaCSV[0]);
+    ultimo = primeiro;
+
+    importDB(listaCSV, "characters.csv");
     char id[100];
+
 
     Character wizard;
 
