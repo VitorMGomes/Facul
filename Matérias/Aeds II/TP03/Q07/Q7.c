@@ -394,7 +394,7 @@ int main()
     primeiro = novaCelula(listaCSV[0]);
     ultimo = primeiro;
 
-    importDB(listaCSV, "characters.csv");
+    importDB(listaCSV, "/tmp/characters.csv");
     char id[100];
 
 
