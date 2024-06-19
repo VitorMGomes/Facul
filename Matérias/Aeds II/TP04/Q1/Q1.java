@@ -58,117 +58,66 @@ class TP
     }
 }
 
-class CelulaDupla {
-    public CelulaDupla ant;
-    public Character x;
-    public CelulaDupla prox;
+class No
+{
+    Character elemento;
+    No dir;
+    No esq;
 
-    CelulaDupla() {
-        this(null, new Character(), null);
+
+    No(Character elemento)
+    {
+        this(elemento, null, null);
     }
 
-    CelulaDupla(Character x) {
-        this(null, x, null);
+    No(Character elemento, No dir, No esq)
+    {
+        this.elemento = elemento;
+        this.dir = dir;
+        this.esq = esq;
     }
-
-    CelulaDupla(CelulaDupla ant, Character x, CelulaDupla prox) {
-        this.ant = ant;
-        this.prox = prox;
-        this.x = x;
-    }
-
-    public CelulaDupla clone() {
-        return new CelulaDupla(ant, x, prox);
-    }
-
-    public void relink(CelulaDupla ant, CelulaDupla prox) {
-        this.ant = ant;
-
-        if (ant != null) {
-            ant.prox = this;
-        }
-
-        this.prox = prox;
-
-        if (prox != null) {
-            prox.ant = this;
-        }
-    }
-
 }
 
-class ListaDupla {
-    CelulaDupla primeiro;
-    CelulaDupla ultimo;
-    int tam;
+class ArvoreBin
+{
+    No raiz;
 
-    ListaDupla() {
-        tam = 0;
-        primeiro = ultimo = new CelulaDupla();
-    }
-
-    public void inserirFim(CelulaDupla add) {
-        add.prox = null;
-        add.ant = ultimo;
-        ultimo.prox = add;
-        ultimo = add;
-
-        tam++;
-    }
-
-    void swap(CelulaDupla a, CelulaDupla b, TP tp) {
-        Character tmp = a.x.clone();
-        a.x = b.x;
-        b.x = tmp;
-
-        tp.addMov(3);
-    }
-
-    int compValores(Character a, Character b, TP tp) {
-        int resultado = a.getHouse().compareTo(b.getHouse());
-        tp.addComp(1);
-        if (resultado == 0) {
-            resultado = a.getName().compareTo(b.getName());
-            tp.addComp(1);
-        }
-        return resultado;
-    }
-
-    void quickSort(CelulaDupla esq, CelulaDupla dir, TP tp) {
-        CelulaDupla pivo = esq;
-        CelulaDupla i = esq.prox, j = dir;
-        while (i.ant != j && i.ant != j.prox) {
-            while (compValores(i.x, pivo.x, tp) < 0) {
-                i = i.prox;
-            }
-            while (compValores(j.x, pivo.x, tp) > 0) {
-                j = j.ant;
-            }
-
-            if (i.ant != j) {
-                swap(i, j, tp);
-                i = i.prox;
-                j = j.ant;
-            }
-        }
-        swap(pivo, j, tp);
-        if (j != esq)
-            quickSort(esq, j, tp);
-        if (i != dir)
-            quickSort(i, dir, tp);
-    }
-
-    public void ordenaFilaDupla(TP tp) {
-        if (primeiro.prox != null && primeiro.prox != ultimo) {
-            quickSort(primeiro.prox, ultimo, tp);
-        }
-    }
-
-    public void mostrar()
+    ArvoreBin()
     {
-        for(CelulaDupla i = primeiro.prox; i != null; i = i.prox){
-            i.x.status();
+        raiz = null;
+    }
+
+    void inserir(Character elemento) throws Exception
+    {
+        inserir(elemento, raiz);
+    }
+
+    No inserir(Character x, No no) throws Exception
+    {
+        if(no == null)
+        {
+            no = new No(x);
         }
+        else if(x.getName().compareTo(no.elemento.getName()) > 0)
+        {
+            no.dir = inserir(x, no.dir);
+        }
+        else if(x.getName().compareTo(no.elemento.getName()) < 0)
+        {
+            no.esq = inserir(x, no.esq);
+        }
+
+        return no;
+    }
+
+    boolean pesquisar(Character elemento)
+    {
+
+    }
+
+    boolean pesqusiar(Character x, No no)
+    {
+
     }
 }
 
@@ -513,11 +462,11 @@ class Character {
 }
 // javac Q1.java; java Q1 <pub.in> saida.out -- "/tmp/characters.csv"
 
-public class Q11 {
+public class Q1 {
 
     public static ArrayList<Character> csv = new ArrayList<Character>();
 
-    public static ListaDupla lista = new ListaDupla();
+    public static ArvoreBin ArvoreBin = new ArvoreBin();
 
     public static void readDB() throws Exception {
 
@@ -544,9 +493,8 @@ public class Q11 {
             Character a = csv.get(i);
 
             if (a.getId().equals(id)) {
-                CelulaDupla celula = new CelulaDupla(a);
-                lista.inserirFim(celula);
-                celula = null;
+
+                ArvoreBin.inserir(a);
             }
         }
 
@@ -581,13 +529,15 @@ public class Q11 {
 
         tp.startTime();
 
-        lista.ordenaFilaDupla(tp);
+        for(String id = scanf.nextLine(); !id.equals("FIM"); id = scanf.nextLine())
+        {
+
+        }
 
         tp.endTime();
 
         tp.ordenacaoFile("800643_quicksort2.txt");
 
-        lista.mostrar();
 
         scanf.close();
 
