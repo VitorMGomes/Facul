@@ -64,6 +64,10 @@ class No
     No dir;
     No esq;
 
+    No()
+    {
+        this(null);
+    }
 
     No(Character elemento)
     {
@@ -89,7 +93,7 @@ class ArvoreBin
 
     void inserir(Character elemento) throws Exception
     {
-        inserir(elemento, raiz);
+        raiz = inserir(elemento, raiz);
     }
 
     No inserir(Character x, No no) throws Exception
@@ -110,14 +114,38 @@ class ArvoreBin
         return no;
     }
 
-    boolean pesquisar(Character elemento)
+    boolean pesquisar(String elemento, TP tp) throws Exception
     {
-
+        return pesquisar(elemento, raiz, tp);
     }
 
-    boolean pesqusiar(Character x, No no)
+    boolean pesquisar(String x, No no, TP tp) throws Exception
     {
+        boolean resp;
 
+        if(no == null)
+        {
+            //tp.addComp(1);
+            resp = false;
+        }
+        else if(no.elemento.getName().equals(x))
+        {
+            tp.addComp(1);
+            resp = true;
+        }
+        else if(x.compareTo(no.elemento.getName()) > 0)
+        {   
+            tp.addComp(2);
+            System.out.print("dir ");
+            resp = pesquisar(x, no.dir, tp);
+        }
+        else{
+            tp.addComp(2);
+            System.out.print("esq ");
+            resp = pesquisar(x, no.esq, tp);
+        }
+
+        return resp;
     }
 }
 
@@ -529,14 +557,23 @@ public class Q1 {
 
         tp.startTime();
 
-        for(String id = scanf.nextLine(); !id.equals("FIM"); id = scanf.nextLine())
+        for(String nome = scanf.nextLine(); !nome.equals("FIM"); nome = scanf.nextLine())
         {
+            System.out.print(nome + " => raiz ");
+            if(ArvoreBin.pesquisar(nome, tp))
+            {
+                System.out.print("SIM");
+            }
+            else{
+            System.out.print("NAO");
+            }
 
+            System.out.println();
         }
 
         tp.endTime();
 
-        tp.ordenacaoFile("800643_quicksort2.txt");
+        tp.pesquisaFile("800643_arvoreBinaria.txt");
 
 
         scanf.close();
