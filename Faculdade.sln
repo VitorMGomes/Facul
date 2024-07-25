@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EstudosAutônomos", "EstudosAutônomos", "{C1C00D23-EC8A-444E-B1A7-DD0763E98820}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "C#", "C#", "{D85A23B8-B503-4521-A6F8-3434AB68141C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FP", "EstudosAutônomos\C#\FP\FP.csproj", "{7249D121-F177-4B73-A3A7-60E46CAE184B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7249D121-F177-4B73-A3A7-60E46CAE184B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7249D121-F177-4B73-A3A7-60E46CAE184B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7249D121-F177-4B73-A3A7-60E46CAE184B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7249D121-F177-4B73-A3A7-60E46CAE184B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D85A23B8-B503-4521-A6F8-3434AB68141C} = {C1C00D23-EC8A-444E-B1A7-DD0763E98820}
+		{7249D121-F177-4B73-A3A7-60E46CAE184B} = {D85A23B8-B503-4521-A6F8-3434AB68141C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {584BB253-AF6E-448E-8561-BB6C310529B8}
+	EndGlobalSection
+EndGlobal
