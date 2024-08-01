@@ -1,0 +1,15 @@
+/home/vitor/Documentos/Faculdade/EstudosAutônomos/C#/FP/bin/Debug/net8.0/FP
+/home/vitor/Documentos/Faculdade/EstudosAutônomos/C#/FP/bin/Debug/net8.0/FP.deps.json
+/home/vitor/Documentos/Faculdade/EstudosAutônomos/C#/FP/bin/Debug/net8.0/FP.runtimeconfig.json
+/home/vitor/Documentos/Faculdade/EstudosAutônomos/C#/FP/bin/Debug/net8.0/FP.dll
+/home/vitor/Documentos/Faculdade/EstudosAutônomos/C#/FP/bin/Debug/net8.0/FP.pdb
+/home/vitor/Documentos/Faculdade/EstudosAutônomos/C#/FP/obj/Debug/net8.0/FP.GeneratedMSBuildEditorConfig.editorconfig
+/home/vitor/Documentos/Faculdade/EstudosAutônomos/C#/FP/obj/Debug/net8.0/FP.AssemblyInfoInputs.cache
+/home/vitor/Documentos/Faculdade/EstudosAutônomos/C#/FP/obj/Debug/net8.0/FP.AssemblyInfo.cs
+/home/vitor/Documentos/Faculdade/EstudosAutônomos/C#/FP/obj/Debug/net8.0/FP.csproj.CoreCompileInputs.cache
+/home/vitor/Documentos/Faculdade/EstudosAutônomos/C#/FP/obj/Debug/net8.0/FP.sourcelink.json
+/home/vitor/Documentos/Faculdade/EstudosAutônomos/C#/FP/obj/Debug/net8.0/FP.dll
+/home/vitor/Documentos/Faculdade/EstudosAutônomos/C#/FP/obj/Debug/net8.0/refint/FP.dll
+/home/vitor/Documentos/Faculdade/EstudosAutônomos/C#/FP/obj/Debug/net8.0/FP.pdb
+/home/vitor/Documentos/Faculdade/EstudosAutônomos/C#/FP/obj/Debug/net8.0/FP.genruntimeconfig.cache
+/home/vitor/Documentos/Faculdade/EstudosAutônomos/C#/FP/obj/Debug/net8.0/ref/FP.dll
