@@ -1,3 +1,5 @@
+//https://judge.beecrowd.com/pt/problems/view/1110
+
 import java.util.*;
 
 class Lista
@@ -56,7 +58,11 @@ class Lista
     {
         for(int i = 0; i < n; i++)
         {
-            System.out.print(array[i] + " ");
+            System.out.print(array[i]);
+            if(i != n -1)
+            {
+                System.out.print(", ");
+            }
         }
     }
 }
@@ -82,12 +88,24 @@ class J
                     lista.inserirFim(i);
                 }
 
-                lista.mostrar();
+                //lista.mostrar();
+
+                Lista descartadas = new Lista(entrada);
 
                 while(n > 1)
                 {
-                    removerInicio;
+                    descartadas.inserirFim(lista.removerInicio());
+                    n--;
+                    lista.inserirFim(lista.removerInicio());
                 }
+
+                System.out.print("Discarded cards: ");
+                descartadas.mostrar();
+                
+                System.out.println();
+
+                System.out.print("Remaining card: ");
+                lista.mostrar();
             }
 
         }while(entrada != 0);
