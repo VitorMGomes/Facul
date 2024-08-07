@@ -58,10 +58,10 @@ class MyList {
 
         int resp = array[pos];
 
-        for (int i = pos; i < n - 1; i++) {
+        n--;
+        for (int i = pos; i < n; i++) {
             array[i] = array[i + 1];
         }
-        n--;
 
         return resp;
     }
