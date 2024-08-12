@@ -10,7 +10,7 @@ typedef struct List
 
 }List;
 
-void startList
+void startList()
 {
 
 }
