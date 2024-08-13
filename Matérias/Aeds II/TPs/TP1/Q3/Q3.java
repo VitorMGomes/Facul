@@ -52,10 +52,10 @@ public class Q3 {
             cifrar(input);
 
             input = scanf.nextLine();
-           //input = MyIO.readLine();
+            //input = MyIO.readLine();
         }
 
-        //scanf.close();
+        scanf.close();
 
     }
 }
