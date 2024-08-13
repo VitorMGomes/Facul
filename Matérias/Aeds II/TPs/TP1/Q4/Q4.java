@@ -55,9 +55,8 @@ public class Q4 {
 
                 input = scanf.nextLine();
 
-            }while(!stop(input))
+            }while(!stop(input));
 
             scanf.close();
-            rand.close();
         }
 }
