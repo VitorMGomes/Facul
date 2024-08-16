@@ -22,8 +22,13 @@ public class Q12 {
     {
         if(len != pos)
         {
-            output += (char) ((int) (input.charAt(pos) += 3));
+            char i = input.charAt(pos);
+            output += (char) ((int) (i += 3));
+
+            return cifrar(input, output, len, ++pos);
         }
+
+        return output;
     }
 
     public static void main(String args[])
@@ -34,6 +39,8 @@ public class Q12 {
         {
             cifrar(input);
         }
+        
+        scanf.close();
     }
 
 
