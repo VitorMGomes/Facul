@@ -25,6 +25,7 @@ public class Q10 {
             if(input.charAt(pos) != input.charAt(len - pos - 1))
             {
                 is = false;
+                pos = len;
             }
 
             return isPal(input, is, len, ++pos);
