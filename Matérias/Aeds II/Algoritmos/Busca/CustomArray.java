@@ -3,7 +3,12 @@ import java.util.*;
 public class CustomArray{
 
     private int tam;
-    private int array[];
+    public int array[];
+
+    public int getTam()
+    {
+        return this.tam;
+    }
 
     public CustomArray(int tam)
     {

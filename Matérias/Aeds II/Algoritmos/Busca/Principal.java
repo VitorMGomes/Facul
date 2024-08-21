@@ -1,25 +1,51 @@
 import java.util.*;
 
 class Principal {
-    public boolean pesquisaBinaria(CustomArray array)
-    {
 
+    static int comparacoes;
+
+    public static boolean pesquisaBinaria(CustomArray array, int pesquisa, int esq, int dir) {
+        boolean resp;
+        int meio = (dir + esq) / 2;
+
+        comparacoes++;
+
+        if (esq > dir) {
+            resp = false;
+        } else if (pesquisa == array.array[meio]) {
+            resp = true;
+        } else if (pesquisa > array.array[meio]) {
+            resp = pesquisaBinaria(array, pesquisa, meio + 1, dir);
+        } else {
+            resp = pesquisaBinaria(array, pesquisa, esq, meio - 1);
+        }
+
+        return resp;
     }
 
-    public void pesquisaBinaria(CustomArray array, Scanner scanf)
+    public static void pesquisaBinaria(CustomArray array, Scanner scanf)
     {
+        comparacoes = 0;
 
         System.out.println("Digite um número (inteiro) para pesquisar no array: ");
+
         int pesquisar = scanf.nextInt();
+        //array.customShuffle();
+        array.printArray();
+        System.out.println(pesquisaBinaria(array, pesquisar, 0, array.getTam() - 1) ? "Está presente no array" : "Não está presente no array;");
 
-        System.out.println(pesquisaBinaria(array) ? "Está presente no array" : "Não está presente no array;");
+        System.out.println("Foram feitas " + comparacoes + " comparações");
+
+        
+
+
 
     }
 
-    public void pesquisaSequencial(CustomArray array, Scanner scanf)
-    {
+    // public void pesquisaSequencial(CustomArray array, Scanner scanf)
+    // {
 
-    }
+    // }
 
 
     public static void main(String args[])
@@ -39,10 +65,12 @@ class Principal {
         switch(choose)
         {
             case 1:
-            pesquisaSequencial(array, scanf);
+            //pesquisaSequencial(array, scanf);
+            break;
 
             case 2:
             pesquisaBinaria(array, scanf);
+            break;
 
             
         }
