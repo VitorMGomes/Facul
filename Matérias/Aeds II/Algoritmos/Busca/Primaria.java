@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Principal {
+public class Primaria {
 
     static int comparacoes;
 

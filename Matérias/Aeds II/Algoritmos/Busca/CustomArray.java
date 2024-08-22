@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class CustomArray{
+class CustomArray{
 
     private int tam;
     public int array[];
