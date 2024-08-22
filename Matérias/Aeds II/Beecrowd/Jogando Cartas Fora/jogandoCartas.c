@@ -14,7 +14,6 @@ void iniciarLista(Lista *lista, int tam)
     lista->tam = 0;      // Inicializa tam como 0
     lista->arr = (int *)malloc(lista->maxTam * sizeof(int));
 
-    return;
 }
 
 void preencherLista(Lista *lista, int tam)
@@ -24,8 +23,6 @@ void preencherLista(Lista *lista, int tam)
     {
         lista->arr[i] = i + 1; // Preenche a lista com números de 1 a tam
     }
-
-    return;
 }
 
 int removerInicio(Lista *lista)
@@ -59,19 +56,28 @@ void inserirFim(Lista *lista, int num)
 
     lista->tam++;
 
-    return;
+}
+
+void mostrarLista(Lista* lista)
+{
+    for(int i = 0; i < lista->tam; i++)
+    {
+        printf("%d ", lista->arr[i]);
+    }
+    printf("\n");
+
 }
 
 int main(void)
 {
-    Lista lista;
-    Lista discard;
     int tam;
 
     scanf("%d", &tam);
 
     while (tam != 0)
     {
+        Lista lista;
+        Lista discard;
 
         // "Construtor" da lista
         iniciarLista(&lista, tam);
@@ -80,6 +86,18 @@ int main(void)
         // Preenche a lista com valores
         preencherLista(&lista, tam);
         
+        //resolução da questão
+        while(lista.tam > 1)
+        {
+            inserirFim(&discard, removerInicio(&lista));
+            inserirFim(&lista, removerInicio(&lista));
+        }
+
+        printf("Lista: ");
+        mostrarLista(&lista);
+
+        printf("Descartadas: ");
+        mostrarLista(&discard);
         
         // Libera a memória alocada
         free(lista.arr);

@@ -92,10 +92,10 @@ class J
 
                 Lista descartadas = new Lista(entrada);
 
-                while(n > 1)
+                while(lista.n > 1)
                 {
                     descartadas.inserirFim(lista.removerInicio());
-                    n--;
+                    //n--;
                     lista.inserirFim(lista.removerInicio());
                 }
 
