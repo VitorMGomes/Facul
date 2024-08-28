@@ -62,7 +62,8 @@ void mostrarLista(Lista* lista)
 {
     for(int i = 0; i < lista->tam; i++)
     {
-        printf("%d ", lista->arr[i]);
+        printf("%d", lista->arr[i]);
+        if(i < lista->tam - 1) printf(", ");
     }
     printf("\n");
 
@@ -93,11 +94,11 @@ int main(void)
             inserirFim(&lista, removerInicio(&lista));
         }
 
-        printf("Lista: ");
-        mostrarLista(&lista);
-
-        printf("Descartadas: ");
+        printf("Discarded cards: ");
         mostrarLista(&discard);
+
+        printf("Remaining card: ");
+        mostrarLista(&lista);
         
         // Libera a memória alocada
         free(lista.arr);
