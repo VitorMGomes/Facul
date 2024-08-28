@@ -7,17 +7,11 @@ int main()
 {
     int hora1, minuto1, hora2, minuto2;
     
-    scanf("%d", &hora1);
-
-    scanf("%d", &minuto1);
-
-    scanf("%d", &hora2);
-
-    scanf("%d", &minuto2);
+    scanf(" %d %d %d %d", &hora1, &minuto1, &hora2, &minuto2);
 
     getchar();
 
-    while (hora1 != 0 && minuto1 != 0 && hora2 != 0 && minuto2 != 0)
+    while(!(hora1 == 0 && minuto1 == 0 && hora2 == 0 && minuto2 == 0))
     {
 
         int minutosDia1 = hora1 * 60 + minuto1;
@@ -34,17 +28,12 @@ int main()
             resultado = 1440 - minutosDia1 + minutosDia2;
         }
 
-        printf("%d", &resultado);
+        printf("%d\n", resultado);
 
-        scanf("%d", &hora1);
-
-        scanf("%d", &minuto1);
-
-        scanf("%d", &hora2);
-
-        scanf("%d", &minuto2);
+        scanf(" %d %d %d %d", &hora1, &minuto1, &hora2, &minuto2);
 
         getchar();
 
     }
+    return 0;
 }
