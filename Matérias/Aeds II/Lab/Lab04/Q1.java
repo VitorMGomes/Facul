@@ -7,14 +7,34 @@ public class Q1
     {
         boolean resp = false;
 
-        if(x % 2 > y % 2)
+        if(x % parametro < y % parametro)
         {
             resp = true;
         }
         else{
-            if(y % 2 == x % 2)
+            if(y % parametro == x % parametro)
             {
-                if()
+                if(x % 2 == 0 && y % 2 == 1)
+                {
+                    resp = true;
+                }
+                else
+                {
+                    if(x % 2 == 1 && y % 2 == 1)
+                    {
+                        if(x > y)
+                        {
+                            resp = true;
+                        }
+                    }
+                    else if(x % 2 == 0 && y % 2 == 0)
+                    {
+                        if(x < y)
+                        {
+                            resp = true;
+                        }
+                    }
+                }
             }
             
         }
@@ -31,6 +51,8 @@ public class Q1
         int repeticoes = scanf.nextInt();
         int parametro = scanf.nextInt();
 
+        System.out.println(repeticoes + " " + parametro);
+
         while(repeticoes != 0 || parametro != 0)
         {
             //inicializa o array com o numero dado
@@ -39,7 +61,7 @@ public class Q1
             //preencher o array
             for(int i = 0; i < repeticoes; i++)
             {               
-                array[i] = i + 1;
+                array[i] = scanf.nextInt();
             }
 
             /*
@@ -59,8 +81,16 @@ public class Q1
 
                 for(int j = i + 1; j < repeticoes; j++)
                 {
-                    if(condicional(array[i], array[j], parametro))
-                    {
+                    if(array[menor]%parametro > array[j]%parametro){
+                        menor = j;
+                    }
+                    else if( (array[menor]%parametro == array[j]%parametro) && array[menor]%2==0 && array[j]%2!=0 ){
+                        menor = j;
+                    }
+                    else if( (array[menor]%parametro == array[j]%parametro) && array[menor]%2!=0  && array[j]%2!=0 && array[menor]<array[j] ){
+                        menor = j;
+                    }
+                    else if( (array[menor]%parametro == array[j]%parametro) && array[menor]%2==0  && array[j]%2==0 && array[menor]>array[j] ){
                         menor = j;
                     }
                 }
@@ -74,13 +104,14 @@ public class Q1
             {
                 System.out.println(array[i]);
             }
-
-
-
-
-
+            
+            
+            
+            
+            
             repeticoes = scanf.nextInt();
             parametro = scanf.nextInt();
+            System.out.println(repeticoes + " " + parametro);
         }
 
 
