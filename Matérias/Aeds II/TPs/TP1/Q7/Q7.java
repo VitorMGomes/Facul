@@ -15,33 +15,39 @@ public class Q7 {
    }
 
    public static String getHtml(String endereco) {
-      URL url;
-      InputStream is = null;
-      BufferedReader br;
-      String resp = "", line;
-
+      StringBuffer resp = new StringBuffer();
       try {
-         url = new URL(endereco);
-         is = url.openStream(); // throws an IOException
-         br = new BufferedReader(new InputStreamReader(is));
+         URL obj = new URL(endereco);
+         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-         while ((line = br.readLine()) != null) {
-            resp += line + "\n";
+         // Método de requisição
+         con.setRequestMethod("GET");
+
+         // Código de resposta da conexão
+         int responseCode = con.getResponseCode();
+         //System.out.println("Código de resposta: " + responseCode);
+
+         // Se a conexão foi bem-sucedida (código 200)
+         if (responseCode == HttpURLConnection.HTTP_OK) {
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+
+            while ((inputLine = in.readLine()) != null) {
+               resp.append(inputLine);
+            }
+
+            // Fecha os buffers
+            in.close();
+
+         } else {
+            System.out.println("Erro na conexão: " + responseCode);
          }
-      } catch (MalformedURLException mue) {
-         mue.printStackTrace();
-      } catch (IOException ioe) {
-         ioe.printStackTrace();
+
+      } catch (Exception e) {
+         e.printStackTrace();
       }
 
-      try {
-         is.close();
-      } catch (IOException ioe) {
-         // nothing to see here
-
-      }
-
-      return resp;
+      return resp.toString();
    }
 
    public static void contador(String str, int tamanho, String nome) {
@@ -138,7 +144,8 @@ public class Q7 {
       }
 
       // printa do jeito que o verde quer ler
-      System.out.println("a(" + out01 + ") e(" + out02 + ") i(" + out03 + ") o(" + out04 + ") u(" + out05 + ") á(" + out06
+      MyIO.println("a(" + out01 + ") e(" + out02 + ") i(" + out03 + ") o(" + out04 + ") u(" + out05 + ") á("
+            + out06
             + ") é(" + out07 + ") í(" + out08 + ") ó(" + out09 + ") ú(" + out10 + ") à(" + out11 + ") è(" + out12
             + ") ì(" + out13 + ") ò(" + out14 + ") ù(" + out15 + ") ã(" + out16 + ") õ(" + out17 + ") â(" + out18
             + ") ê(" + out19 + ") î(" + out20 + ") ô(" + out21 + ") û(" + out22 + ") consoante(" + out23 + ") <br>("
