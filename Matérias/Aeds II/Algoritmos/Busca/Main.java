@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Busca {
+public class Main {
 
     static int comparacoes;
 
