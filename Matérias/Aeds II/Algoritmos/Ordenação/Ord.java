@@ -141,8 +141,43 @@ public class Ord {
 
     public static void insertionSort(CustomArray array, Scanner scanf) {
         
+        movimentacoes = 0;
+        comparacoes = 0;
 
+        System.out.println("O array inicial é esse: ");
+        array.printArray();
+
+        int tam = array.getTam();
+        
+        for (int i = 1; i < tam; i++)
+        {
+            int tmp = array.array[i];
+            int j = i - 1;
+            while (j >= 0 && array.array[j] > tmp)
+            {
+                array.array[j + 1] = array.array[j];
+                j = j - 1;
+            }
+            array.array[j + 1] = tmp;
+        }
+
+
+        /*   Optimized
+        for (int i = 1; i < length; i++)
+        {
+            int tmp = array[i];
+            int j = i - 1;
+            int locate = binarySearchInsertion(array, i, array[i]);
+            while (j >= locate)
+            {
+                array[j + 1] = array[j];
+                j = j - 1;
+            }
+            array[j + 1] = tmp;
+        }
+        */
     }
+
 
     public static void main(String args[]) {
         Scanner scanf = new Scanner(System.in);
