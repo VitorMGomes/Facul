@@ -16,23 +16,24 @@ public class Ord {
         // // Selection sort
 
         // for (int i = 0; i < tam - 1; i++) {
-        //     int menor = i;
-        //     for (int j = i + 1; j < tam; j++) {
-        //         iteracoes++;
-        //         comparacoes ++;
-        //         if (array.array[menor] > array.array[j]) {
-        //             menor = j;
-        //         }
-        //     }
-        //     movimentacoes += 3;
-        //     int temp = array.array[menor];
-        //     array.array[menor] = array.array[i];
-        //     array.array[i] = temp;
+        // int menor = i;
+        // for (int j = i + 1; j < tam; j++) {
+        // iteracoes++;
+        // comparacoes ++;
+        // if (array.array[menor] > array.array[j]) {
+        // menor = j;
+        // }
+        // }
+        // movimentacoes += 3;
+        // int temp = array.array[menor];
+        // array.array[menor] = array.array[i];
+        // array.array[i] = temp;
         // }
 
         // System.out.println("Após ordenação: ");
         // array.printArray();
-        // System.out.println("Foram feitas " + comparacoes + " comparacoes, " + movimentacoes + " movimentaçoẽs e " + iteracoes +" iteracoes");
+        // System.out.println("Foram feitas " + comparacoes + " comparacoes, " +
+        // movimentacoes + " movimentaçoẽs e " + iteracoes +" iteracoes");
 
         // movimentacoes = 0;
         // comparacoes = 0;
@@ -46,7 +47,7 @@ public class Ord {
             for (int j = i + 1; j < tam - i; j++) {
                 iteracoes++;
                 if (array.array[menor] > array.array[j]) {
-                    comparacoes ++;
+                    comparacoes++;
                     menor = j;
                 } else if (array.array[maior] < array.array[j]) {
                     maior = j;
@@ -70,7 +71,8 @@ public class Ord {
 
         System.out.println("Após ordenação otimizada: ");
         array.printArray();
-        System.out.println("Foram feitas " + comparacoes + " comparacoes, " + movimentacoes + " movimentaçoẽs e " + iteracoes +" iteracoes");
+        System.out.println("Foram feitas " + comparacoes + " comparacoes, " + movimentacoes + " movimentaçoẽs e "
+                + iteracoes + " iteracoes");
 
     }
 
@@ -83,51 +85,47 @@ public class Ord {
         // int tam = array.getTam();
 
         // Bubble sort
-        
+
         // for (int i = 0; i < tam - 1; i++) {
-        //     for (int j = 0; j < tam - 1 - i; j++) {
-        //         comparacoes++;
-        //         if (array.array[j] > array.array[j + 1]) {
-        //             int temp = array.array[j];
-        //             array.array[j] = array.array[j + 1];
-        //             array.array[j + 1] = temp;
-        //             movimentacoes+=3;
-        //         }
-        //     }
+        // for (int j = 0; j < tam - 1 - i; j++) {
+        // comparacoes++;
+        // if (array.array[j] > array.array[j + 1]) {
+        // int temp = array.array[j];
+        // array.array[j] = array.array[j + 1];
+        // array.array[j + 1] = temp;
+        // movimentacoes+=3;
+        // }
+        // }
         // }
 
         // System.out.println("Após ordenação: ");
         // array.printArray();
-        // System.out.println("Foram feitas " + comparacoes + " comparacoes, " + movimentacoes + " movimentaçoẽs");
+        // System.out.println("Foram feitas " + comparacoes + " comparacoes, " +
+        // movimentacoes + " movimentaçoẽs");
 
-        //array.printArray();
+        // array.printArray();
         // Bubble sort otimizado
 
         int tam = array.getTam();
         int lastSwap = tam - 1;
 
-
-        for(int i = 0; i < tam - 1; i++)
-        {
+        for (int i = 0; i < tam - 1; i++) {
             boolean swapped = false;
             int newlastSwap = 0;
-            for(int j = 0; j < lastSwap; j++)
-            {
-                comparacoes+=2;
-                if(array.array[j] > array.array[j + 1])
-                {
+            for (int j = 0; j < lastSwap; j++) {
+                comparacoes += 2;
+                if (array.array[j] > array.array[j + 1]) {
                     int temp = array.array[j];
                     array.array[j] = array.array[j + 1];
                     array.array[j + 1] = temp;
-                    movimentacoes+=3;
+                    movimentacoes += 3;
                     swapped = true;
                     newlastSwap = j;
-                } 
+                }
             }
 
             lastSwap = newlastSwap;
-            if(!swapped)
-            {
+            if (!swapped) {
                 i = tam;
             }
         }
@@ -136,11 +134,10 @@ public class Ord {
         array.printArray();
         System.out.println("Foram feitas " + comparacoes + " comparacoes, " + movimentacoes + " movimentaçoẽs");
 
-
     }
 
     public static void insertionSort(CustomArray array, Scanner scanf) {
-        
+
         movimentacoes = 0;
         comparacoes = 0;
 
@@ -148,36 +145,35 @@ public class Ord {
         array.printArray();
 
         int tam = array.getTam();
-        
-        for (int i = 1; i < tam; i++)
-        {
-            int tmp = array.array[i];
-            int j = i - 1;
-            while (j >= 0 && array.array[j] > tmp)
-            {
-                array.array[j + 1] = array.array[j];
-                j = j - 1;
+
+        for (int i = 1; i < tam; i++) {
+            if (array.array[i] % 2 == 0) {
+                int tmp = array.array[i];
+                int j = i - 1;
+                while (j >= 0 && ((array.array[j] > tmp) || array.array[j] % 2 == 1)){//while (j >= 0 && array.array[j] > tmp) {
+                    array.array[j + 1] = array.array[j];
+                    j = j - 1;
+                }
+                array.array[j + 1] = tmp;
             }
-            array.array[j + 1] = tmp;
         }
 
-
-        /*   Optimized
-        for (int i = 1; i < length; i++)
-        {
-            int tmp = array[i];
-            int j = i - 1;
-            int locate = binarySearchInsertion(array, i, array[i]);
-            while (j >= locate)
-            {
-                array[j + 1] = array[j];
-                j = j - 1;
-            }
-            array[j + 1] = tmp;
-        }
-        */
+        /*
+         * Optimized
+         * for (int i = 1; i < length; i++)
+         * {
+         * int tmp = array[i];
+         * int j = i - 1;
+         * int locate = binarySearchInsertion(array, i, array[i]);
+         * while (j >= locate)
+         * {
+         * array[j + 1] = array[j];
+         * j = j - 1;
+         * }
+         * array[j + 1] = tmp;
+         * }
+         */
     }
-
 
     public static void main(String args[]) {
         Scanner scanf = new Scanner(System.in);
