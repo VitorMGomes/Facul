@@ -8,32 +8,49 @@
 
 struct lingua
 {
-    char idioma[20];
-    char traducao[40];
+    char idioma[200];
+    char traducao[400];
 
 }typedef lingua;
 
-struct pessoa
-{
-    lingua materna;
-    char nome[20];
-
-}typedef pessoa;
-
-
 int main()
 {
-    int tam;
-    scanf(" %d", &tam);
+    int tamLinguas;
+    scanf(" %d", &tamLinguas);
 
-    lingua listaLinguas[tam];
+    lingua listaLinguas[tamLinguas];
 
-    for(int i = 0; i < tam; i++)
+    for(int i = 0; i < tamLinguas; i++)
     {
-        scanf(" %20[^\n]", listaLinguas->idioma);
-        scanf(" %40[^\n]", listaLinguas->traducao);
+        scanf(" %200[^\n\r]", listaLinguas[i].idioma);
+        scanf(" %400[^\n\r]", listaLinguas[i].traducao);
     }
 
-    int pessoas 
+    int tamPessoas;
+
+    scanf(" %d", &tamPessoas);
+
+    for(int i = 0; i < tamPessoas; i++)
+    {
+        char pessoa[200];
+        scanf(" %200[^\n\r]", pessoa);
+        char idiomaFalado[200];
+        scanf(" %200[^\n\r]", idiomaFalado);
+
+        printf("%s\n", pessoa);
+        //printf("%s\n", idiomaFalado);
+        
+        for(int j = 0; j < tamLinguas; j++)
+        {
+            if(!(strcmp(idiomaFalado, listaLinguas[j].idioma)))
+            {
+                printf("%s", listaLinguas[j].traducao);
+            }
+        }
+        printf("\n\n");
+
+    }
+
+
 }
 
