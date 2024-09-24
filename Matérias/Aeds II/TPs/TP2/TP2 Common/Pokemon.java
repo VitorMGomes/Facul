@@ -48,11 +48,11 @@ public class Pokemon {
 
     // -------------------------------------------------------------- Setters ---//
 
-    public void setAbilities(ArrayList abilities) {
+    public void setAbilities(String abilities) {
         this.abilities = abilities;
     }
 
-    public void setCaptureDate(Date captureDate) {
+    public void setCaptureDate(String captureDate) {
         this.captureDate = captureDate;
     }
 
@@ -76,7 +76,7 @@ public class Pokemon {
         this.id = id;
     }
 
-    public void setLegendary(boolean legendary) {
+    public void setLegendary(int legendary) {
         this.legendary = legendary;
     }
 
@@ -84,7 +84,7 @@ public class Pokemon {
         this.name = name;
     }
 
-    public void setTypes(ArrayList types) {
+    public void setTypes(String types) {
         this.types = types;
     }
 
@@ -178,6 +178,11 @@ public class Pokemon {
         }
 
         line = newLine;
+
+        String splitted[] = line.split(",");
+        
+        this.id = Integer.parseInt(splitted[1]);
+        this.generation = Integer.parseInt(splitted[2]);
     }
 
 }
