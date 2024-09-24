@@ -1,6 +1,7 @@
 import java.util.*;
 import java.io.*;
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 
 public class Pokemon {
 
@@ -8,13 +9,13 @@ public class Pokemon {
     private int generation;
     private String name;
     private String description;
-    private ArrayList types;
-    private ArrayList abilities;
-    private double weight;
-    private double height;
+    private ArrayList<String> types;
+    private ArrayList<String> abilities;
+    private String weight;
+    private String height;
     private int captureRate;
     private boolean legendary;
-    private Date captureDate;
+    private String captureDate;
 
     Pokemon() {
         this.id = 0;
@@ -23,16 +24,18 @@ public class Pokemon {
         this.description = null;
         this.types = null;
         this.abilities = null;
-        this.weight = 0;
-        this.height = 0;
+        //this.weight = 0;
+        this.weight = "0";
+        //this.height = 0;
+        this.height = "0";
         this.captureRate = 0;
         this.legendary = false;
         this.captureDate = null;
     }
 
-    public Pokemon(int id, int generation, String name, String description, ArrayList types, ArrayList abilities,
-            double weight,
-            double height, int captureRate, boolean legendary, Date captureDate) {
+    public Pokemon(int id, int generation, String name, String description, ArrayList<String> types, ArrayList<String> abilities,
+            String weight,
+            String height, int captureRate, boolean legendary, String captureDate) {
         this.id = id;
         this.generation = generation;
         this.name = name;
@@ -48,7 +51,7 @@ public class Pokemon {
 
     // -------------------------------------------------------------- Setters ---//
 
-    public void setAbilities(String abilities) {
+    public void setAbilities(ArrayList<String> abilities) {
         this.abilities = abilities;
     }
 
@@ -68,7 +71,7 @@ public class Pokemon {
         this.generation = generation;
     }
 
-    public void setHeight(double height) {
+    public void setHeight(String height) {
         this.height = height;
     }
 
@@ -76,7 +79,7 @@ public class Pokemon {
         this.id = id;
     }
 
-    public void setLegendary(int legendary) {
+    public void setLegendary(boolean legendary) {
         this.legendary = legendary;
     }
 
@@ -84,21 +87,21 @@ public class Pokemon {
         this.name = name;
     }
 
-    public void setTypes(String types) {
+    public void setTypes(ArrayList<String> types) {
         this.types = types;
     }
 
-    public void setWeight(double weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 
     // -------------------------------------------------------------- Getters ---//
 
-    public ArrayList getAbilities() {
+    public ArrayList<String> getAbilities() {
         return abilities;
     }
 
-    public Date getCaptureDate() {
+    public String getCaptureDate() {
         return captureDate;
     }
 
@@ -114,7 +117,7 @@ public class Pokemon {
         return generation;
     }
 
-    public double getHeight() {
+    public String getHeight() {
         return height;
     }
 
@@ -126,11 +129,11 @@ public class Pokemon {
         return name;
     }
 
-    public ArrayList getTypes() {
+    public ArrayList<String> getTypes() {
         return types;
     }
 
-    public double getWeight() {
+    public String getWeight() {
         return weight;
     }
 
@@ -146,9 +149,40 @@ public class Pokemon {
         return clonado;
     }
 
-    void mostrar() {
+    private ArrayList<String> formatTypes(String type1, String type2)
+    {
+        ArrayList<String> types = new ArrayList<>();
 
+        types.add(type1);
+        types.add(type2);
+
+        return types;
     }
+
+    private ArrayList<String> formatAbilitieList(String listAbilities)
+    {
+        ArrayList<String> abilities = new ArrayList<>();
+
+        String splitted[] = listAbilities.split(",");
+        for(int i = 0; i < splitted.length; i++)
+        {
+            abilities.add(splitted[i]);
+        }
+
+        return abilities;
+    }
+
+    private void printTypes()
+    {
+        System.out.print(this.types);
+    }
+
+    private void printAbilities()
+    {
+        System.out.print(this.abilities);
+    }
+
+    //[#181 -> Ampharos: Light Pokémon - ['electric'] - ['Static', 'Plus'] - 61.5kg - 1.4m - 45% - false - 2 gen] - 25/05/1999
 
     void ler(String line) {
         String newLine = "";
@@ -171,18 +205,38 @@ public class Pokemon {
                 }
             } else {
 
-                if (currentChar != '"' && currentChar != '[' && currentChar != ']' && currentChar != '\'') {
+                if (currentChar != '"' && currentChar != '[' && currentChar != ']') {
                     newLine += currentChar;
                 }
-            }
+            }       
         }
 
         line = newLine;
 
-        String splitted[] = line.split(",");
+        String splitted[] = line.split(";");
         
-        this.id = Integer.parseInt(splitted[1]);
-        this.generation = Integer.parseInt(splitted[2]);
+        setId(Integer.parseInt(splitted[0]));
+        setGeneration(Integer.parseInt(splitted[1]));
+        setName(splitted[2]);
+        setDescription(splitted[3]);
+        setTypes(formatTypes(splitted[4], splitted[5]));
+        setAbilities(formatAbilitieList(splitted[6]));
+        //setWeight(Double.parseDouble(splitted[7]));
+        //setHeight(Double.parseDouble(splitted[8]));
+        setCaptureRate(Integer.parseInt(splitted[9]));
+        setLegendary(splitted[10].equals("1"));
+        setCaptureDate(splitted[11]);
+
+    }
+
+    void mostrar() {
+        System.out.print("[#" + this.id + " -> " + this.name + ": " + this.description + " - ");
+        printTypes();
+        System.out.print(" - ");
+        printAbilities();
+        System.out.print(" - " + this.weight + "kg - " + this.height + "m - " + this.captureRate + "% - " + this.legendary + " - " + this.generation + " gen" + "] - "  + this.captureDate);
+        
+        System.out.println();
     }
 
 }

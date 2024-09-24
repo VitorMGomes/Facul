@@ -32,15 +32,30 @@ public class teste {
         }
 
         line = newLine;
-        System.out.println(line);
+
+        String splitted[] = line.split(";");
+        
+        // setId(Integer.parseInt(splitted[1]));
+        // setGeneration(Integer.parseInt(splitted[2]));
+        // setName(splitted[3]);
+        // setDescription(splitted[4]);
+        // setTypes(formatTypes(splitted[4], splitted[5]));
+
+        for(int i = 0; i < splitted.length; i++)
+        {
+            System.out.println("Posicao: " + i);
+            System.out.println(splitted[i]);
+        }
+
+
     }
 
     public static void main(String args[]) throws Exception {
         
         Scanner reader = new Scanner(new FileReader("/tmp/pokemon.csv"));
-        //reader.nextLine();
+        reader.nextLine();
 
-        for (int i = 0; reader.hasNextLine(); i++) {
+        for (int i = 0; i < 1; i++) {
 
             String line = reader.nextLine();
 
