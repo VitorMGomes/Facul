@@ -199,7 +199,7 @@ public class Main {
         reader.close();
     }
 
-    public static Pokemon pesquisaBinaria(int pesquisa, int esq, int dir) {
+    public static Pokemon searchID(int pesquisa, int esq, int dir) {
         Pokemon resp;
         int meio = (dir + esq) / 2;
 
@@ -208,9 +208,9 @@ public class Main {
         } else if (pesquisa == pokemons[meio].getId()) {
             resp = pokemons[meio];
         } else if (pesquisa > pokemons[meio].getId()) {
-            resp = pesquisaBinaria(pesquisa, meio + 1, dir);
+            resp = searchID(pesquisa, meio + 1, dir);
         } else {
-            resp = pesquisaBinaria(pesquisa, esq, meio - 1);
+            resp = searchID(pesquisa, esq, meio - 1);
         }
 
         return resp;
@@ -226,7 +226,7 @@ public class Main {
         {
             int find = Integer.parseInt(input);
 
-            pesquisaBinaria(find, 0, 800).mostrar();
+            searchID(find, 0, 800).mostrar();
         }
 
         scanf.close();
