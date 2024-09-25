@@ -1,9 +1,10 @@
 import java.util.*;
 import java.io.*;
-import java.time.*;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class Pokemon {
+class Pokemon {
 
     private int id;
     private int generation;
@@ -11,31 +12,33 @@ public class Pokemon {
     private String description;
     private ArrayList<String> types;
     private ArrayList<String> abilities;
-    private String weight;
-    private String height;
+    private Double weight;
+    private Double height;
     private int captureRate;
     private boolean legendary;
+    //private Date captureDate;
     private String captureDate;
 
-    Pokemon() {
+    // -------------------------------------------------------------- Construtor Vazio -------------------------------------------------------------- //    
+    public Pokemon() {
         this.id = 0;
         this.generation = 0;
-        this.name = null;
-        this.description = null;
-        this.types = null;
-        this.abilities = null;
-        //this.weight = 0;
-        this.weight = "0";
-        //this.height = 0;
-        this.height = "0";
+        this.name = "";
+        this.description = "";
+        this.types = new ArrayList<>();
+        this.abilities = new ArrayList<>();
+        this.weight = 0.0;
+        this.height = 0.0;
         this.captureRate = 0;
         this.legendary = false;
-        this.captureDate = null;
+        this.captureDate = "";
+        //this.captureDate = new Date();
     }
-
-    public Pokemon(int id, int generation, String name, String description, ArrayList<String> types, ArrayList<String> abilities,
-            String weight,
-            String height, int captureRate, boolean legendary, String captureDate) {
+    // -------------------------------------------------------------- Construtor -------------------------------------------------------------- //
+    public Pokemon(int id, int generation, String name, String description, ArrayList<String> types,
+            ArrayList<String> abilities,
+            Double weight,
+            Double height, int captureRate, boolean legendary, String captureDate) {
         this.id = id;
         this.generation = generation;
         this.name = name;
@@ -49,99 +52,32 @@ public class Pokemon {
         this.captureDate = captureDate;
     }
 
-    // -------------------------------------------------------------- Setters ---//
+    // -------------------------------------------------------------- Getters & Setters -------------------------------------------------------------- //
+    public void setAbilities(ArrayList<String> abilities) { this.abilities = abilities; }
+    public ArrayList<String> getAbilities() { return abilities; }
+    public void setCaptureDate(String captureDate) { this.captureDate = captureDate; } //substituido Date por String por que a formatacao nao da certo
+    public String getCaptureDate() { return captureDate; } //substituido Date por String por que a formatacao nao da certo
+    public void setCaptureRate(int captureRate) { this.captureRate = captureRate; }
+    public int getCaptureRate() { return captureRate; }
+    public void setDescription(String description) { this.description = description; }
+    public String getDescription() { return description; }
+    public void setGeneration(int generation) { this.generation = generation; }
+    public int getGeneration() { return generation; }
+    public void setHeight(Double height) { this.height = height; }
+    public Double getHeight() { return height; }
+    public void setId(int id) { this.id = id; }
+    public int getId() { return id; }
+    public void setLegendary(boolean legendary) { this.legendary = legendary; }
+    public boolean isLegendary() { return legendary; }
+    public void setName(String name) { this.name = name; }
+    public String getName() { return name; }
+    public void setTypes(ArrayList<String> types) { this.types = types; }
+    public ArrayList<String> getTypes() { return types; }
+    public void setWeight(Double weight) { this.weight = weight; }
+    public Double getWeight() { return weight; }
+    // -------------------------------------------------------------- Getters & Setters -------------------------------------------------------------- //
 
-    public void setAbilities(ArrayList<String> abilities) {
-        this.abilities = abilities;
-    }
-
-    public void setCaptureDate(String captureDate) {
-        this.captureDate = captureDate;
-    }
-
-    public void setCaptureRate(int captureRate) {
-        this.captureRate = captureRate;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setGeneration(int generation) {
-        this.generation = generation;
-    }
-
-    public void setHeight(String height) {
-        this.height = height;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setLegendary(boolean legendary) {
-        this.legendary = legendary;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setTypes(ArrayList<String> types) {
-        this.types = types;
-    }
-
-    public void setWeight(String weight) {
-        this.weight = weight;
-    }
-
-    // -------------------------------------------------------------- Getters ---//
-
-    public ArrayList<String> getAbilities() {
-        return abilities;
-    }
-
-    public String getCaptureDate() {
-        return captureDate;
-    }
-
-    public int getCaptureRate() {
-        return captureRate;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public int getGeneration() {
-        return generation;
-    }
-
-    public String getHeight() {
-        return height;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public ArrayList<String> getTypes() {
-        return types;
-    }
-
-    public String getWeight() {
-        return weight;
-    }
-
-    public boolean isLegendary() {
-        return legendary;
-    }
-
-    Pokemon myClone() {
+    public Pokemon myClone() {
         Pokemon clonado = new Pokemon(id, generation, name, description, types, abilities,
                 weight,
                 height, captureRate, legendary, captureDate);
@@ -149,46 +85,38 @@ public class Pokemon {
         return clonado;
     }
 
-    private ArrayList<String> formatTypes(String type1, String type2)
-    {
+    // -------------------------------------------------------------- Formatando Types -------------------------------------------------------------- //
+    private ArrayList<String> formatTypes(String type1, String type2) {
         ArrayList<String> types = new ArrayList<>();
-
-        types.add(type1);
-        types.add(type2);
-
+        if (type1 != "") {
+            String type1Fixed = "\'" + type1 + "\'";
+            types.add(type1Fixed.trim());
+        }
+        if (type2 != "") {
+            String type2Fixed = "\'" + type2 + "\'";
+            types.add(type2Fixed.trim());
+        }
         return types;
     }
 
-    private ArrayList<String> formatAbilitieList(String listAbilities)
-    {
+    // -------------------------------------------------------------- Formatando Abilidades -------------------------------------------------------------- //
+    private ArrayList<String> formatAbilitieList(String listAbilities) {
         ArrayList<String> abilities = new ArrayList<>();
 
         String splitted[] = listAbilities.split(",");
-        for(int i = 0; i < splitted.length; i++)
-        {
-            abilities.add(splitted[i]);
+        for (int i = 0; i < splitted.length; i++) {
+            abilities.add(splitted[i].trim());
         }
 
         return abilities;
     }
 
-    private void printTypes()
-    {
-        System.out.print(this.types);
-    }
-
-    private void printAbilities()
-    {
-        System.out.print(this.abilities);
-    }
-
-    //[#181 -> Ampharos: Light Pokémon - ['electric'] - ['Static', 'Plus'] - 61.5kg - 1.4m - 45% - false - 2 gen] - 25/05/1999
-
-    void ler(String line) {
+    public void ler(String line) throws Exception {
         String newLine = "";
         boolean insideQuotes = false;
         int tam = line.length();
 
+        //substituindo as virgulas que separam o as colunas do csv por ";"
         for (int i = 0; i < tam; i++) {
             char currentChar = line.charAt(i);
 
@@ -200,7 +128,7 @@ public class Pokemon {
 
                 if (currentChar == ',') {
                     newLine += ';';
-                } else if (currentChar != '"') {
+                } else if (currentChar != '\"') {
                     newLine += currentChar;
                 }
             } else {
@@ -208,35 +136,39 @@ public class Pokemon {
                 if (currentChar != '"' && currentChar != '[' && currentChar != ']') {
                     newLine += currentChar;
                 }
-            }       
+            }
         }
 
         line = newLine;
 
         String splitted[] = line.split(";");
-        
+
         setId(Integer.parseInt(splitted[0]));
         setGeneration(Integer.parseInt(splitted[1]));
         setName(splitted[2]);
         setDescription(splitted[3]);
         setTypes(formatTypes(splitted[4], splitted[5]));
         setAbilities(formatAbilitieList(splitted[6]));
-        //setWeight(Double.parseDouble(splitted[7]));
-        //setHeight(Double.parseDouble(splitted[8]));
+        if(splitted[7] != "") setWeight(Double.parseDouble(splitted[7]));
+        if(splitted[8] != "") setHeight(Double.parseDouble(splitted[8]));
         setCaptureRate(Integer.parseInt(splitted[9]));
         setLegendary(splitted[10].equals("1"));
         setCaptureDate(splitted[11]);
 
+
+        //NAO TA DANDO CERTO
+        // if (splitted[11].isEmpty()) {
+        //     this.captureDate = null;
+        // } else {
+        //     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        //     this.captureDate = formatter.parse(splitted[11]);
+        // }
     }
 
-    void mostrar() {
-        System.out.print("[#" + this.id + " -> " + this.name + ": " + this.description + " - ");
-        printTypes();
-        System.out.print(" - ");
-        printAbilities();
-        System.out.print(" - " + this.weight + "kg - " + this.height + "m - " + this.captureRate + "% - " + this.legendary + " - " + this.generation + " gen" + "] - "  + this.captureDate);
-        
-        System.out.println();
+    public void mostrar() {
+        System.out.println("[#" + this.id + " -> " + this.name + ": " + this.description + " - " + types + " - "
+                + abilities + " - " + this.weight + "kg - " + this.height + "m - " + this.captureRate + "% - "
+                + this.legendary + " - " + this.generation + " gen" + "] - " + this.captureDate);
     }
 
 }
