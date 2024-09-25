@@ -1,8 +1,7 @@
+import java.time.*;
 import java.util.*;
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 class Pokemon {
 
@@ -16,8 +15,7 @@ class Pokemon {
     private Double height;
     private int captureRate;
     private boolean legendary;
-    //private Date captureDate;
-    private String captureDate;
+    private Date captureDate;
 
     // -------------------------------------------------------------- Construtor Vazio -------------------------------------------------------------- //    
     public Pokemon() {
@@ -31,14 +29,13 @@ class Pokemon {
         this.height = 0.0;
         this.captureRate = 0;
         this.legendary = false;
-        this.captureDate = "";
-        //this.captureDate = new Date();
+        this.captureDate = new Date();
     }
     // -------------------------------------------------------------- Construtor -------------------------------------------------------------- //
     public Pokemon(int id, int generation, String name, String description, ArrayList<String> types,
             ArrayList<String> abilities,
             Double weight,
-            Double height, int captureRate, boolean legendary, String captureDate) {
+            Double height, int captureRate, boolean legendary, Date captureDate) {
         this.id = id;
         this.generation = generation;
         this.name = name;
@@ -55,8 +52,8 @@ class Pokemon {
     // -------------------------------------------------------------- Getters & Setters -------------------------------------------------------------- //
     public void setAbilities(ArrayList<String> abilities) { this.abilities = abilities; }
     public ArrayList<String> getAbilities() { return abilities; }
-    public void setCaptureDate(String captureDate) { this.captureDate = captureDate; } //substituido Date por String por que a formatacao nao da certo
-    public String getCaptureDate() { return captureDate; } //substituido Date por String por que a formatacao nao da certo
+    public void setCaptureDate(Date captureDate) { this.captureDate = captureDate; }
+    public Date getCaptureDate() { return captureDate; }
     public void setCaptureRate(int captureRate) { this.captureRate = captureRate; }
     public int getCaptureRate() { return captureRate; }
     public void setDescription(String description) { this.description = description; }
@@ -153,22 +150,40 @@ class Pokemon {
         if(splitted[8] != "") setHeight(Double.parseDouble(splitted[8]));
         setCaptureRate(Integer.parseInt(splitted[9]));
         setLegendary(splitted[10].equals("1"));
-        setCaptureDate(splitted[11]);
 
+        SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy");
+		setCaptureDate(formater.parse(splitted[11]));
 
-        //NAO TA DANDO CERTO
-        // if (splitted[11].isEmpty()) {
-        //     this.captureDate = null;
-        // } else {
-        //     SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        //     this.captureDate = formatter.parse(splitted[11]);
-        // }
+    }
+
+    public static Pokemon[] readDb() throws Exception
+    {
+        Scanner reader = new Scanner(new FileReader("/tmp/pokemon.csv"));
+
+        reader.nextLine();// pulando a primeira linha do csv
+        Pokemon pokemons[] = new Pokemon[801];
+
+        for (int i = 0; reader.hasNextLine(); i++) {
+
+            String line = reader.nextLine();
+
+            Pokemon pokemon = new Pokemon();
+
+            pokemon.ler(line);
+
+            pokemons[i] = pokemon;
+        }
+
+        reader.close();
+        return pokemons;
     }
 
     public void mostrar() {
+        SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy");
+
         System.out.println("[#" + this.id + " -> " + this.name + ": " + this.description + " - " + types + " - "
                 + abilities + " - " + this.weight + "kg - " + this.height + "m - " + this.captureRate + "% - "
-                + this.legendary + " - " + this.generation + " gen" + "] - " + this.captureDate);
+                + this.legendary + " - " + this.generation + " gen" + "] - " + formater.format(captureDate));
     }
 
 }
