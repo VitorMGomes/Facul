@@ -5,6 +5,11 @@
 #include <ctype.h>
 #include <stdbool.h>
 
+bool toBool(char *input)
+{
+    return strcmp(input, "VERDADEIRO") == 0;
+}
+
 typedef struct Date
 {
     int dia, mes, ano;
@@ -30,6 +35,17 @@ typedef struct Pokemon
 void startPoke()
 {
     
+}
+
+void setDateOfBirth(char dateOfBirth[], Pokemon *x)
+{
+    char **array = split("/", dateOfBirth);
+
+    x->captureDate.dia = atoi(array[0]);
+    x->captureDate.mes = atoi(array[1]);
+    x->captureDate.ano = atoi(array[2]);
+
+    freeSplit(array);
 }
 
 
@@ -90,42 +106,15 @@ Pokemon ler(char *string)
     int pos = 0;
     Pokemon x;
 
-    setId(array[pos++], &x);
+    // for(int i = 0; i < 12; i++)
+    // {
+    //     printf("%s\n", array[i]);
+    // }
 
-    setName(array[pos++], &x);
-
-    setAlternativeNames(array[pos++], &x);
-
-    setHouse(array[pos++], &x);
-
-    setAncestry(array[pos++], &x);
-
-    setSpecies(array[pos++], &x);
-
-    setPatronus(array[pos++], &x);
-
-    setHogwartsStaff(array[pos++], &x);
-
-    setHogwartsStudent(array[pos++], &x);
-
-    setActorName(array[pos++], &x);
-
-    setAlive(array[pos++], &x);
-
-    // Para pular o atributo não usado
-    pos++;
-
-    setDateOfBirth(array[pos++], &x);
-
-    setYearOfBirth(array[pos++], &x);
-
-    setEyeColour(array[pos++], &x);
-
-    setGender(array[pos++], &x);
-
-    setHairColour(array[pos++], &x);
-
-    setWizard(array[pos++], &x);
+    x.id = atoi(array[0]);
+    x.generation = atoi(array[1]);
+    strcpy(x.name, array[2]);
+    strcpy();
 
     freeSplit(array);
 
@@ -139,7 +128,7 @@ void handleLine(char *line)
 
     for(int i = 0; i < tam; i++)
     {
-
+        
         if(line[i] == '\"')
         {
             insideQuotes = !insideQuotes;
@@ -177,9 +166,9 @@ void importDB(char *fileName)
         line[pos] = '\0';
 
         handleLine(line);
+        ler(line);
 
-
-        printf("%s\n", line);
+        //printf("%s\n", line);
     }
 
 
