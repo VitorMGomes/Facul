@@ -36,7 +36,7 @@ typedef struct Pokemon
     double height;
     int captureRate;
     // bool legendary;
-    int legendary;
+    char legendary[80];
     // Date captureDate;
     char captureDate[100];
 } Pokemon;
@@ -44,7 +44,7 @@ typedef struct Pokemon
 Pokemon pokemons[1000];
 
 void printPokemon(Pokemon pokemons[], int pos) {
-    printf("[#%d -> %s: %s - [%s] - [%s] - %.2f - %.2f - %d - %d - %d] - %s\n", 
+    printf("[#%d -> %s: %s - [%s] - [%s] - %.1fkg - %.1fm - %d%% - %s - %d gen] - %s\n", 
            pokemons[pos].id,                // ID
            pokemons[pos].name,              // Nome
            pokemons[pos].description,       // Descrição
@@ -114,10 +114,9 @@ char **split(char *regex, char *string)
 
     strcpy(array[n], "cFIM");
 
-    strcpy(array[0], strsep(&string, regex));
-
-    for (int i = 1; i < n; i++)
+    for (int i = 0; i < n; i++)
     {
+        //strcpy(array[0], strsep(&string, regex));
         char *temp = strsep(&string, regex);
         strcpy(array[i], temp);
     }
@@ -187,7 +186,7 @@ Pokemon ler(char *string)
     pokemons[pos].weight = atof(array[7]);            
     pokemons[pos].height = atof(array[8]);           
     pokemons[pos].captureRate = atoi(array[9]);       
-    pokemons[pos].legendary = atoi(array[10]);         
+    array[10][0] == '1' ? strcpy(pokemons[pos].legendary, "true") : strcpy(pokemons[pos].legendary, "false");
     strcpy(pokemons[pos].captureDate, array[11]);    
 
     // printPokemon(pokemons, pos); 
