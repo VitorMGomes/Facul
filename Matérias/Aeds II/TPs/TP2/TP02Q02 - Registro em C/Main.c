@@ -37,14 +37,14 @@ typedef struct Pokemon
     int captureRate;
     // bool legendary;
     char legendary[80];
-    // Date captureDate;
-    char captureDate[100];
+    Date captureDate;
+    // char captureDate[100];
 } Pokemon;
 
 Pokemon pokemons[1000];
 
 void printPokemon(Pokemon pokemons[], int pos) {
-    printf("[#%d -> %s: %s - [%s] - [%s] - %.1fkg - %.1fm - %d%% - %s - %d gen] - %s\n", 
+    printf("[#%d -> %s: %s - [%s] - [%s] - %.1fkg - %.1fm - %d%% - %s - %d gen] - %02d/%02d/%d\n", 
            pokemons[pos].id,                // ID
            pokemons[pos].name,              // Nome
            pokemons[pos].description,       // Descrição
@@ -55,29 +55,10 @@ void printPokemon(Pokemon pokemons[], int pos) {
            pokemons[pos].captureRate,       // Taxa de Captura
            pokemons[pos].legendary,         // Legendary (0 ou 1)
            pokemons[pos].generation,        // Geração
-           pokemons[pos].captureDate);      // Data de Captura
+           pokemons[pos].captureDate.dia,
+           pokemons[pos].captureDate.mes,
+           pokemons[pos].captureDate.ano);      // Data de Captura
 }
-
-
-
-// void startPoke(Pokemon *x)
-// {
-//     x->id = 0;
-//     x->generation = 0;
-//     x->name =
-// }
-
-// void setDateOfBirth(char dateOfBirth[], Pokemon *x)
-// {
-//     char **array = split("/", dateOfBirth);
-
-//     x->captureDate.dia = atoi(array[0]);
-//     x->captureDate.mes = atoi(array[1]);
-//     x->captureDate.ano = atoi(array[2]);
-
-//     freeSplit(array);
-// }
-
 
 void freeSplit(char **array)
 {
@@ -124,6 +105,18 @@ char **split(char *regex, char *string)
     return array;
 }
 
+void setCaptureDate(char *dateOfBirth, int x)
+{
+    char* d = strtok(dateOfBirth, "/");
+	char* m = strtok(NULL, "/");
+	char* y = strtok(NULL, "/");
+
+    pokemons[x].captureDate.dia = atoi(d);
+    pokemons[x].captureDate.mes = atoi(m);
+    pokemons[x].captureDate.ano = atoi(y);
+
+}
+
 char* tratarAbilities(char *array)
 {
     int tam = strlen(array);
@@ -140,17 +133,6 @@ char* tratarAbilities(char *array)
     return newLine;
 }
 
-// void inserirType(Pokemon *x, char *array1, char *array2)
-// {
-//     if(array2 == NULL)
-//     {   
-//         strcmp(x->types.type1, array1);
-//         strcmp(x->types.type2, array2);
-//     }
-//     else{
-//         strcmp(x->types.type1, array1);
-//     }
-// }
 
 Pokemon ler(char *string)
 {
@@ -187,7 +169,10 @@ Pokemon ler(char *string)
     pokemons[pos].height = atof(array[8]);           
     pokemons[pos].captureRate = atoi(array[9]);       
     array[10][0] == '1' ? strcpy(pokemons[pos].legendary, "true") : strcpy(pokemons[pos].legendary, "false");
-    strcpy(pokemons[pos].captureDate, array[11]);    
+    //strcpy(pokemons[pos].captureDate, array[11]);
+
+    setCaptureDate(array[11], pos);  
+      
 
     // printPokemon(pokemons, pos); 
 
