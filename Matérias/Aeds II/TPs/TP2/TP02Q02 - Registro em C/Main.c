@@ -29,8 +29,7 @@ typedef struct Pokemon
     int generation;
     char name[20];
     char description[40];
-    // Types types;
-    char types[100];
+    Types types;
     char abilities[60];
     double weight;
     double height;
@@ -38,7 +37,6 @@ typedef struct Pokemon
     // bool legendary;
     char legendary[80];
     Date captureDate;
-    // char captureDate[100];
 } Pokemon;
 
 Pokemon pokemons[1000];
@@ -55,8 +53,8 @@ void printPokemon(Pokemon pokemons[], int pos) {
            pokemons[pos].captureRate,       // Taxa de Captura
            pokemons[pos].legendary,         // Legendary (0 ou 1)
            pokemons[pos].generation,        // Geração
-           pokemons[pos].captureDate.dia,
-           pokemons[pos].captureDate.mes,
+           pokemons[pos].captureDate.dia,       // Data de Captura
+           pokemons[pos].captureDate.mes,       // Data de Captura
            pokemons[pos].captureDate.ano);      // Data de Captura
 }
 
@@ -97,12 +95,24 @@ char **split(char *regex, char *string)
 
     for (int i = 0; i < n; i++)
     {
-        //strcpy(array[0], strsep(&string, regex));
         char *temp = strsep(&string, regex);
         strcpy(array[i], temp);
     }
 
     return array;
+}
+
+void inserirType(int pos, char *array1, char *array2)
+{   
+    strcpy(pokemons[pos].types.type1, "'");
+    strcat(pokemons[pos].types.type1, array1);
+    strcpy(pokemons[pos].types.type1, "'");
+    if (array2 != 0) 
+    {
+        strcpy(pokemons[pos].types.type1, ", '");
+        strcat(pokemons[pos].types.type1, array2);
+        strcpy(pokemons[pos].types.type1, "'");
+    }
 }
 
 void setCaptureDate(char *dateOfBirth, int x)
@@ -117,64 +127,29 @@ void setCaptureDate(char *dateOfBirth, int x)
 
 }
 
-char* tratarAbilities(char *array)
-{
-    int tam = strlen(array);
-    char* newLine = malloc((tam-3) * sizeof(char));
-    int pos = 0;
-    for(int i = 0; i < tam; i++)
-    {
-        if (array[i] != '"' && array[i] != '[' && array[i] != ']') {
-                    newLine[pos] = array[i];
-                    pos++;
-                }
-    }
-
-    return newLine;
-}
-
-
 Pokemon ler(char *string)
 {
 
-    // char aux[2000];
-    // strcpy(aux, string);
     char **array = split(";", string);
 
     static int pos = 0;
     Pokemon x;
 
-    // if(strcmp(array[0], "19") == 0)
-    // for(int i = 0; i < 12; i++)
-    // {
-    //     printf("%s\n", array[i]);
-    // }
-
     pokemons[pos].id = atoi(array[0]);              
     pokemons[pos].generation = atoi(array[1]);
     strcpy(pokemons[pos].name, array[2]);             
     strcpy(pokemons[pos].description, array[3]);    
-    strcpy(pokemons[pos].types, "'");
-    strcat(pokemons[pos].types, array[4]);
-    strcat(pokemons[pos].types, "'");
-    if (array[5][0] != 0) 
-    {
-        strcat(pokemons[pos].types, ", '");
-        strcat(pokemons[pos].types, array[5]);
-        strcat(pokemons[pos].types, "'");
-    }
+    
+    inserirType(pos, array[4], array[5]);
 
     strcpy(pokemons[pos].abilities, array[6]);        
     pokemons[pos].weight = atof(array[7]);            
     pokemons[pos].height = atof(array[8]);           
     pokemons[pos].captureRate = atoi(array[9]);       
     array[10][0] == '1' ? strcpy(pokemons[pos].legendary, "true") : strcpy(pokemons[pos].legendary, "false");
-    //strcpy(pokemons[pos].captureDate, array[11]);
 
     setCaptureDate(array[11], pos);  
       
-
-    // printPokemon(pokemons, pos); 
 
     pos++;
 
@@ -217,21 +192,9 @@ void importDB(char *fileName)
         line[pos] = '\0';
 
         char* formatted = handleLine(line);
-
-        // passar para  funcao
-        // int tam = strlen(line);
-        // int aux = 1;
-        // for (int i = 0; i < tam; i++)
-        // {
-        //     if (line[i] == '"') aux++;
-        //     else if (line[i] == ',' && (aux % 2)) line[i] = ';';
-        // }
-
-        //printf("%s\n", line);
         
         ler(formatted);
 
-        //printf("%s\n", formatted);
     }
 
 
