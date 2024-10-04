@@ -17,10 +17,9 @@ typedef struct Date
 
 typedef struct Types
 {
-    int n;
-    char type1[20];
-    char type2[20];
-
+    char *type1;
+    char *type2;
+    
 }Types;
 
 typedef struct Pokemon
@@ -31,6 +30,8 @@ typedef struct Pokemon
     char description[40];
     Types types;
     char abilities[60];
+    char **abilities;
+    int nAbilities;
     double weight;
     double height;
     int captureRate;
@@ -42,11 +43,12 @@ typedef struct Pokemon
 Pokemon pokemons[1000];
 
 void printPokemon(Pokemon pokemons[], int pos) {
-    printf("[#%d -> %s: %s - [%s] - [%s] - %.1fkg - %.1fm - %d%% - %s - %d gen] - %02d/%02d/%d\n", 
+    printf("[#%d -> %s: %s - [%s%s] - [%s] - %.1fkg - %.1fm - %d%% - %s - %d gen] - %02d/%02d/%d\n", 
            pokemons[pos].id,                // ID
            pokemons[pos].name,              // Nome
            pokemons[pos].description,       // Descrição
-           pokemons[pos].types,             // Tipos
+           pokemons[pos].types.type1,             // Tipos
+           pokemons[pos].types.type2, 
            pokemons[pos].abilities,         // Habilidades
            pokemons[pos].weight,            // Peso
            pokemons[pos].height,            // Altura
@@ -104,14 +106,16 @@ char **split(char *regex, char *string)
 
 void inserirType(int pos, char *array1, char *array2)
 {   
+    pokemons[pos].types.type1 = (char*)malloc(strlen(array1)+2);
     strcpy(pokemons[pos].types.type1, "'");
     strcat(pokemons[pos].types.type1, array1);
-    strcpy(pokemons[pos].types.type1, "'");
-    if (array2 != 0) 
+    strcat(pokemons[pos].types.type1, "'");
+    if (array2[0] != 0) 
     {
-        strcpy(pokemons[pos].types.type1, ", '");
-        strcat(pokemons[pos].types.type1, array2);
-        strcpy(pokemons[pos].types.type1, "'");
+        pokemons[pos].types.type2 = (char*)malloc(strlen(array2)+3);
+        strcpy(pokemons[pos].types.type2, ", '");
+        strcat(pokemons[pos].types.type2, array2);
+        strcat(pokemons[pos].types.type2, "'");
     }
 }
 
@@ -163,10 +167,24 @@ char* handleLine(char* line){
     char* formatted = malloc(leng * sizeof(char));
     bool control = true;
     int j = 0;
-    for(int i=0; i<leng; i++){
-        if(line[i] == '"') control = !control;
-        else if(line[i] == ',' && control) formatted[j++] = ';';
-        else if(line[i] != '[' && line[i] != ']') formatted[j++] = line[i];
+
+    for(int i=0; i<leng; i++)
+    {
+
+        if(line[i] == '"')
+        {
+            control = !control;
+        }
+
+        else if(line[i] == ',' && control)
+        { 
+            formatted[j++] = ';';
+        }
+
+        else if(line[i] != '[' && line[i] != ']')
+        { 
+            formatted[j++] = line[i];
+        }
     }
     formatted[j] = 0;
     return formatted;
