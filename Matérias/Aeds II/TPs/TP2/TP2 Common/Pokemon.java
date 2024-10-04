@@ -1,7 +1,7 @@
 import java.time.*;
 import java.util.*;
 import java.io.*;
-import java.text.SimpleDateFormat;
+import java.text.*;
 
 class Pokemon {
 
@@ -16,6 +16,7 @@ class Pokemon {
     private int captureRate;
     private boolean legendary;
     private Date captureDate;
+    //private String captureDate;
 
     // -------------------------------------------------------------- Construtor Vazio -------------------------------------------------------------- //    
     public Pokemon() {
@@ -108,7 +109,7 @@ class Pokemon {
         return abilities;
     }
 
-    public void ler(String line) throws Exception {
+    public void ler(String line) {
         String newLine = "";
         boolean insideQuotes = false;
         int tam = line.length();
@@ -140,41 +141,77 @@ class Pokemon {
 
         String splitted[] = line.split(";");
 
-        setId(Integer.parseInt(splitted[0]));
-        setGeneration(Integer.parseInt(splitted[1]));
-        setName(splitted[2]);
-        setDescription(splitted[3]);
-        setTypes(formatTypes(splitted[4], splitted[5]));
-        setAbilities(formatAbilitieList(splitted[6]));
-        if(splitted[7] != "") setWeight(Double.parseDouble(splitted[7]));
-        if(splitted[8] != "") setHeight(Double.parseDouble(splitted[8]));
-        setCaptureRate(Integer.parseInt(splitted[9]));
-        setLegendary(splitted[10].equals("1"));
+        try {
+            setId(Integer.parseInt(splitted[0]));
+            setGeneration(Integer.parseInt(splitted[1]));
+            setName(splitted[2]);
+            setDescription(splitted[3]);
 
-        SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy");
-		setCaptureDate(formater.parse(splitted[11]));
+            setTypes(formatTypes(splitted[4], splitted[5]));
+
+            setAbilities(formatAbilitieList(splitted[6]));
+
+            if (!splitted[7].isEmpty()) {
+                setWeight(Double.parseDouble(splitted[7]));
+            }
+
+            if (!splitted[8].isEmpty()) {
+                setHeight(Double.parseDouble(splitted[8]));
+            }
+
+            setCaptureRate(Integer.parseInt(splitted[9]));
+
+            setLegendary(splitted[10].equals("1"));
+
+            SimpleDateFormat formater = new SimpleDateFormat("dd/MM/yyyy");
+            setCaptureDate(formater.parse(splitted[11]));
+        
+        } catch (NumberFormatException e) {
+            System.err.println("Erro ao converter número: " + e.getMessage());
+        } catch (ParseException e) {
+            System.err.println("Erro ao formatar data: " + e.getMessage());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.err.println("Erro: dados insuficientes. Verifique o número de campos.");
+        } catch (NullPointerException e) {
+            System.err.println("Erro: dado nulo encontrado.");
+        } catch (Exception e) {
+            System.err.println("Erro inesperado: " + e.getMessage());
+        }
 
     }
 
-    public static Pokemon[] readDb() throws Exception
-    {
-        Scanner reader = new Scanner(new FileReader("/tmp/pokemon.csv"));
+    public static Pokemon[] readDb() {
 
-        reader.nextLine();// pulando a primeira linha do csv
         Pokemon pokemons[] = new Pokemon[801];
-
-        for (int i = 0; reader.hasNextLine(); i++) {
-
-            String line = reader.nextLine();
-
-            Pokemon pokemon = new Pokemon();
-
-            pokemon.ler(line);
-
-            pokemons[i] = pokemon;
+        Scanner reader = null;
+    
+        try {
+            reader = new Scanner(new FileReader("/tmp/pokemon.csv"));
+    
+            reader.nextLine();
+    
+            for (int i = 0; reader.hasNextLine(); i++) {
+                String line = reader.nextLine();
+                Pokemon pokemon = new Pokemon();
+    
+                try {
+                    pokemon.ler(line);
+                    pokemons[i] = pokemon;
+                } catch (Exception e) {
+                    System.err.println("Erro ao processar linha " + (i + 1) + ": " + e.getMessage());
+                }
+            }
+    
+        } catch (FileNotFoundException e) {
+            System.err.println("Arquivo não encontrado: " + e.getMessage());
+        } catch (Exception e) {
+            System.err.println("Erro inesperado: " + e.getMessage());
+        } finally {
+            if (reader != null) {
+                reader.close();
+            }
         }
-
-        reader.close();
+    
         return pokemons;
     }
 
