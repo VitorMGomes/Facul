@@ -17,8 +17,8 @@ typedef struct Date
 
 typedef struct Types
 {
-    char *type1;
-    char *type2;
+    char type1[20];
+    char type2[20];
     
 }Types;
 
@@ -30,7 +30,6 @@ typedef struct Pokemon
     char description[40];
     Types types;
     char abilities[60];
-    char **abilities;
     int nAbilities;
     double weight;
     double height;
@@ -106,13 +105,11 @@ char **split(char *regex, char *string)
 
 void inserirType(int pos, char *array1, char *array2)
 {   
-    pokemons[pos].types.type1 = (char*)malloc(strlen(array1)+2);
     strcpy(pokemons[pos].types.type1, "'");
     strcat(pokemons[pos].types.type1, array1);
     strcat(pokemons[pos].types.type1, "'");
     if (array2[0] != 0) 
     {
-        pokemons[pos].types.type2 = (char*)malloc(strlen(array2)+3);
         strcpy(pokemons[pos].types.type2, ", '");
         strcat(pokemons[pos].types.type2, array2);
         strcat(pokemons[pos].types.type2, "'");
