@@ -49,4 +49,14 @@ class CustomArray{
         }
     }
 
+    public void partialShuffle()
+    {
+        for(int i = 0; i < tam; i+=2)
+        {
+            int temp = array[i];
+            array[i] = array[i+1];
+            array[i+1] = temp;
+        }
+    }
+
 }
