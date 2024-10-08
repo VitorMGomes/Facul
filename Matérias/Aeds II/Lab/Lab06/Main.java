@@ -151,43 +151,55 @@ public class Main {
     }
 
     public static void main(String args[]) {
+
+        TP tp = new TP();
+
+
+        System.out.println("[DESORDENADO]");
+
         System.out.println("Desordenado | Tamanho do Array: 100");
 
+        tp.startTime();
         for (int i = 0; i < 10000; i++) {
             Classe = new CustomArray(100);
             Classe.customShuffle();
             quickSortFirstPivot();
         }
-        System.out.println("Primeiro elemento | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000));
+        tp.endTime();
+        System.out.println("Primeiro elemento | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000) + " | Tempo: " + tp.Time() / 1000 + " ms");
         comparacoes = 0;
         movimentacoes = 0;
 
-
+        tp.startTime();
         for (int i = 0; i < 10000; i++) {
             Classe = new CustomArray(100);
             Classe.customShuffle();
             quickSortLastPivot();
         }
-        System.out.println("Último elemento | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000));
+        tp.endTime();
+        System.out.println("Último elemento | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000) + " | Tempo: " + tp.Time() / 1000 + " ms");
         comparacoes = 0;
         movimentacoes = 0;
 
-
+        tp.startTime();
         for (int i = 0; i < 10000; i++) {
             Classe = new CustomArray(100);
             Classe.customShuffle();
             quickSortRandomPivot();
         }
-        System.out.println("Random Pivot | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000));
+        tp.endTime();
+        System.out.println("Random Pivot | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000) + " | Tempo: " + tp.Time() / 1000 + " ms");
         comparacoes = 0;
         movimentacoes = 0;
 
+        tp.startTime();
         for (int i = 0; i < 10000; i++) {
             Classe = new CustomArray(100);
             Classe.customShuffle();
             quickSortMedianOfThree();
         }
-        System.out.println("Mediana de 3 | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000));
+        tp.endTime();
+        System.out.println("Mediana de 3 | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000) + " | Tempo: " + tp.Time() / 1000 + " ms");
         comparacoes = 0;
         movimentacoes = 0;
 
@@ -195,41 +207,47 @@ public class Main {
 
         System.out.println("Desordenado | Tamanho do Array: 1.000");
 
+        tp.startTime();
         for (int i = 0; i < 10000; i++) {
             Classe = new CustomArray(1000);
             Classe.customShuffle();
             quickSortFirstPivot();
         }
-        System.out.println("Primeiro elemento | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000));
+        tp.endTime();
+        System.out.println("Primeiro elemento | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000) + " | Tempo: " + tp.Time() / 1000 + " ms");
         comparacoes = 0;
         movimentacoes = 0;
 
-
+        tp.startTime();
         for (int i = 0; i < 10000; i++) {
             Classe = new CustomArray(1000);
             Classe.customShuffle();
             quickSortLastPivot();
         }
-        System.out.println("Último elemento | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000));
+        tp.endTime();
+        System.out.println("Último elemento | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000) + " | Tempo: " + tp.Time() / 1000 + " ms");
         comparacoes = 0;
         movimentacoes = 0;
 
-
+        tp.startTime();
         for (int i = 0; i < 10000; i++) {
             Classe = new CustomArray(1000);
             Classe.customShuffle();
             quickSortRandomPivot();
         }
-        System.out.println("Random Pivot | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000));
+        tp.endTime();
+        System.out.println("Random Pivot | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000) + " | Tempo: " + tp.Time() / 1000 + " ms");
         comparacoes = 0;
         movimentacoes = 0;
 
+        tp.startTime();
         for (int i = 0; i < 10000; i++) {
             Classe = new CustomArray(1000);
             Classe.customShuffle();
             quickSortMedianOfThree();
         }
-        System.out.println("Mediana de 3 | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000));
+        tp.endTime();
+        System.out.println("Mediana de 3 | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000) + " | Tempo: " + tp.Time() / 1000 + " ms");
         comparacoes = 0;
         movimentacoes = 0;
 
@@ -237,47 +255,285 @@ public class Main {
 
         System.out.println("Desordenado | Tamanho do Array: 10.000");
 
+        tp.startTime();
         for (int i = 0; i < 10000; i++) {
             Classe = new CustomArray(10000);
             Classe.customShuffle();
             quickSortFirstPivot();
         }
-        System.out.println("Primeiro elemento | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000));
+        tp.endTime();
+        System.out.println("Primeiro elemento | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000) + " | Tempo: " + tp.Time() / 1000 + " ms");
         comparacoes = 0;
         movimentacoes = 0;
 
-
+        tp.startTime();
         for (int i = 0; i < 10000; i++) {
             Classe = new CustomArray(10000);
             Classe.customShuffle();
             quickSortLastPivot();
         }
-        System.out.println("Último elemento | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000));
+        tp.endTime();
+        System.out.println("Último elemento | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000) + " | Tempo: " + tp.Time() / 1000 + " ms");
         comparacoes = 0;
         movimentacoes = 0;
 
-
+        tp.startTime();
         for (int i = 0; i < 10000; i++) {
             Classe = new CustomArray(10000);
             Classe.customShuffle();
             quickSortRandomPivot();
         }
-        System.out.println("Random Pivot | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000));
+        tp.endTime();
+        System.out.println("Random Pivot | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000) + " | Tempo: " + tp.Time() / 1000 + " ms");
         comparacoes = 0;
         movimentacoes = 0;
 
+        tp.startTime();
         for (int i = 0; i < 10000; i++) {
             Classe = new CustomArray(10000);
             Classe.customShuffle();
             quickSortMedianOfThree();
         }
-        System.out.println("Mediana de 3 | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000));
+        tp.endTime();
+        System.out.println("Mediana de 3 | Comparacoes: " + (comparacoes / 10000) + " | Movimentacoes: " + (movimentacoes / 10000) + " | Tempo: " + tp.Time() / 1000 + " ms");
         comparacoes = 0;
         movimentacoes = 0;
 
         System.out.println("---------------------------------------------------------------------------------------------");
+
+        System.out.println("[ORDENADO]");
         
-        //Colocar o tempo de execucao em cada e dpeois calcular de nao ordenado e parcialmente ordenado;
+
+
+        System.out.println("Ordenado | Tamanho do Array: 100");
+
+        tp.startTime();
+            Classe = new CustomArray(100);
+            quickSortFirstPivot();
+        tp.endTime();
+        System.out.println("Primeiro elemento | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+        tp.startTime();
+            Classe = new CustomArray(100);
+            quickSortLastPivot();
+        tp.endTime();
+        System.out.println("Último elemento | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+
+        tp.startTime();
+            Classe = new CustomArray(100);
+            quickSortRandomPivot();
+        tp.endTime();
+        System.out.println("Random Pivot | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+
+        tp.startTime();
+            Classe = new CustomArray(100);
+            quickSortMedianOfThree();
+        tp.endTime();
+        System.out.println("Mediana de 3 | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+
+        System.out.println("---------------------------------------------------------------------------------------------");
+
+        System.out.println("Ordenado | Tamanho do Array: 1.000");
+
+        tp.startTime();
+            Classe = new CustomArray(1000);
+            quickSortFirstPivot();
+        tp.endTime();
+        System.out.println("Primeiro elemento | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+
+        tp.startTime();
+            Classe = new CustomArray(1000);
+            quickSortLastPivot();
+        tp.endTime();
+        System.out.println("Último elemento | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+
+        tp.startTime();
+            Classe = new CustomArray(1000);
+            quickSortRandomPivot();
+        tp.endTime();
+        System.out.println("Random Pivot | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+
+        tp.startTime();
+            Classe = new CustomArray(1000);
+            quickSortMedianOfThree();
+        tp.endTime();
+        System.out.println("Mediana de 3 | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+
+        System.out.println("---------------------------------------------------------------------------------------------");
+
+        System.out.println("Ordenado | Tamanho do Array: 10.000");
+
+        tp.startTime();
+            Classe = new CustomArray(10000);
+            quickSortFirstPivot();
+        tp.endTime();
+        System.out.println("Primeiro elemento | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+
+        tp.startTime();
+            Classe = new CustomArray(10000);
+            quickSortLastPivot();
+        tp.endTime();
+        System.out.println("Último elemento | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+
+        tp.startTime();
+            Classe = new CustomArray(10000);
+            quickSortRandomPivot();
+        tp.endTime();
+        System.out.println("Random Pivot | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+
+        tp.startTime();
+            Classe = new CustomArray(10000);
+            quickSortMedianOfThree();
+        tp.endTime();
+        System.out.println("Mediana de 3 | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+
+        System.out.println("---------------------------------------------------------------------------------------------");
+
+
+        System.out.println("[PARCIALMENTE ORDENADO]");
+
+
+        System.out.println("Parcialmente ordenado | Tamanho do Array: 100");
+
+        tp.startTime();
+            Classe = new CustomArray(100);
+            Classe.partialShuffle();
+            quickSortFirstPivot();
+        tp.endTime();
+        System.out.println("Primeiro elemento | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+        tp.startTime();
+            Classe = new CustomArray(100);
+            Classe.partialShuffle();
+            quickSortLastPivot();
+
+        tp.endTime();
+        System.out.println("Último elemento | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+
+        tp.startTime();
+            Classe = new CustomArray(100);
+            Classe.partialShuffle();
+            quickSortRandomPivot();
+        tp.endTime();
+        System.out.println("Random Pivot | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+
+        tp.startTime();
+            Classe = new CustomArray(100);
+            Classe.partialShuffle();
+            quickSortMedianOfThree();
+        tp.endTime();
+        System.out.println("Mediana de 3 | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+
+        System.out.println("---------------------------------------------------------------------------------------------");
+        System.out.println("Parcialmente ordenado | Tamanho do Array: 1.000");
+
+        tp.startTime();
+            Classe = new CustomArray(1000);
+            Classe.partialShuffle();
+            quickSortFirstPivot();
+        tp.endTime();
+        System.out.println("Primeiro elemento | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+
+        tp.startTime();
+            Classe = new CustomArray(1000);
+            Classe.partialShuffle();
+            quickSortLastPivot();
+        tp.endTime();
+        System.out.println("Último elemento | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+
+        tp.startTime();
+            Classe = new CustomArray(1000);
+            Classe.partialShuffle();
+            quickSortRandomPivot();
+        tp.endTime();
+        System.out.println("Random Pivot | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+
+        tp.startTime();
+            Classe = new CustomArray(1000);
+            Classe.partialShuffle();
+            quickSortMedianOfThree();
+        tp.endTime();
+        System.out.println("Mediana de 3 | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+
+        System.out.println("---------------------------------------------------------------------------------------------");
+
+        System.out.println("Parcialmente ordenado | Tamanho do Array: 10.000");
+
+        tp.startTime();
+            Classe = new CustomArray(10000);
+            Classe.partialShuffle();
+            quickSortFirstPivot();
+        tp.endTime();
+        System.out.println("Primeiro elemento | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+
+        tp.startTime();
+            Classe = new CustomArray(10000);
+            Classe.partialShuffle();
+            quickSortLastPivot();
+        tp.endTime();
+        System.out.println("Último elemento | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+
+        tp.startTime();
+            Classe = new CustomArray(10000);
+            Classe.partialShuffle();
+            quickSortRandomPivot();
+        tp.endTime();
+        System.out.println("Random Pivot | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+
+        tp.startTime();
+            Classe = new CustomArray(10000);
+            Classe.partialShuffle();
+            quickSortMedianOfThree();
+        tp.endTime();
+        System.out.println("Mediana de 3 | Comparacoes: " + (comparacoes) + " | Movimentacoes: " + (movimentacoes) + " | Tempo: " + tp.Time() + " ms");
+        comparacoes = 0;
+        movimentacoes = 0;
+
+        System.out.println("---------------------------------------------------------------------------------------------");
 
         
     }
