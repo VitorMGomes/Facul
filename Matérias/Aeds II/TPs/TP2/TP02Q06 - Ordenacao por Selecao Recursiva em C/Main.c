@@ -292,25 +292,6 @@ void selecaoRecursiva(int i, int len)
 }
 
 
-bool binarySearch(char pesquisa[], int esq, int dir)
-{
-    bool resp;
-    int meio = (dir + esq) / 2;
-
-    if (esq > dir) {
-        resp = false;
-    } else if (strcmp(pesquisa, array[meio].name) == 0) {
-        resp = true;
-    } else if (strcmp(pesquisa, array[meio].name) > 0) {
-        resp = binarySearch(pesquisa, meio + 1, dir);
-    } else {
-        resp = binarySearch(pesquisa, esq, meio - 1);
-    }
-
-    return resp;
-}
-
-
 
 int main()
 {
@@ -337,30 +318,33 @@ int main()
         array[i] = clone(pokemons[ids[i]]);
     }
 
-    selecaoRecursiva(0, len);
     clock_t inicio = clock();
-
-    scanf(" %s", input);
-    while(strcmp(input, "FIM"))
-    {
-        binarySearch(input, 0, len) ? printf("SIM\n") : printf("NAO\n");
-        scanf(" %s", input);
-    }
+    selecaoRecursiva(0, len);
     clock_t final = clock();
+
+    for(int i = 0; i < len; i++)
+    {
+        printPokemon(array[i]);
+    }
 
 
     free(array);
 
     double tempo = ((double)(final - inicio)) / (CLOCKS_PER_SEC/1000);
 
-    FILE *fw = fopen("800643_binaria.txt", "w");
+    FILE *fw = fopen("800643_selecaoRecursiva.txt", "w");
     if (fw != NULL)
     {
-        fprintf(fw, "Matrícula: 800643 |\tTempo: %.5fms |\tComparações: %d\n", tempo, comparacoes);
+        fprintf(fw, "Matrícula: 800643 |\tTempo: %.5fms |\tComparações: %d |\tMovimentações: %d\n", tempo, comparacoes, movimentacoes*3);
         fclose(fw);
     }
     else
     {
         printf("Erro ao abrir o arquivo.\n");
     }
+
+
+    
+
+
 }

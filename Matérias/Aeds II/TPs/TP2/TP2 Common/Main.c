@@ -4,6 +4,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include <time.h>
 
 bool toBool(char *input)
 {
@@ -41,35 +42,35 @@ typedef struct Pokemon
 
 Pokemon pokemons[1000];
 
-void printPokemon(Pokemon pokemons[], int pos) {
+void printPokemon(Pokemon pokemons) {
     printf("[#%d -> %s: %s - [%s%s] - [%s] - %.1fkg - %.1fm - %d%% - %s - %d gen] - %02d/%02d/%d\n", 
-           pokemons[pos].id,                // ID
-           pokemons[pos].name,              // Nome
-           pokemons[pos].description,       // Descrição
-           pokemons[pos].types.type1,             // Tipos
-           pokemons[pos].types.type2, 
-           pokemons[pos].abilities,         // Habilidades
-           pokemons[pos].weight,            // Peso
-           pokemons[pos].height,            // Altura
-           pokemons[pos].captureRate,       // Taxa de Captura
-           pokemons[pos].legendary,         // Legendary (0 ou 1)
-           pokemons[pos].generation,        // Geração
-           pokemons[pos].captureDate.dia,       // Data de Captura
-           pokemons[pos].captureDate.mes,       // Data de Captura
-           pokemons[pos].captureDate.ano);      // Data de Captura
+           pokemons.id,                // ID
+           pokemons.name,              // Nome
+           pokemons.description,       // Descrição
+           pokemons.types.type1,             // Tipos
+           pokemons.types.type2, 
+           pokemons.abilities,         // Habilidades
+           pokemons.weight,            // Peso
+           pokemons.height,            // Altura
+           pokemons.captureRate,       // Taxa de Captura
+           pokemons.legendary,         // Legendary (0 ou 1)
+           pokemons.generation,        // Geração
+           pokemons.captureDate.dia,       // Data de Captura
+           pokemons.captureDate.mes,       // Data de Captura
+           pokemons.captureDate.ano);      // Data de Captura
 }
 
-void freeSplit(char **array)
+void freeSplit(char **papas)
 {
     int i;
-    for (i = 0; strcmp(array[i], "cFIM"); i++)
+    for (i = 0; strcmp(papas[i], "cFIM"); i++)
     {
-        free(array[i]);
+        free(papas[i]);
     }
 
-    free(array[i]);
+    free(papas[i]);
 
-    free(array);
+    free(papas);
 }
 
 
@@ -85,22 +86,22 @@ char **split(char *regex, char *string)
             n++;
     }
 
-    char **array = (char **)malloc((n + 1) * sizeof(char *));
+    char **papas = (char **)malloc((n + 1) * sizeof(char *));
 
     for (int i = 0; i < n + 1; i++)
     {
-        array[i] = calloc(200, sizeof(char *));
+        papas[i] = calloc(200, sizeof(char *));
     }
 
-    strcpy(array[n], "cFIM");
+    strcpy(papas[n], "cFIM");
 
     for (int i = 0; i < n; i++)
     {
         char *temp = strsep(&string, regex);
-        strcpy(array[i], temp);
+        strcpy(papas[i], temp);
     }
 
-    return array;
+    return papas;
 }
 
 void inserirType(int pos, char *array1, char *array2)
@@ -131,29 +132,29 @@ void setCaptureDate(char *dateOfBirth, int x)
 void ler(char *string)
 {
 
-    char **array = split(";", string);
+    char **papas = split(";", string);
 
     static int pos = 0;
 
-    pokemons[pos].id = atoi(array[0]);              
-    pokemons[pos].generation = atoi(array[1]);
-    strcpy(pokemons[pos].name, array[2]);             
-    strcpy(pokemons[pos].description, array[3]);    
+    pokemons[pos].id = atoi(papas[0]);              
+    pokemons[pos].generation = atoi(papas[1]);
+    strcpy(pokemons[pos].name, papas[2]);             
+    strcpy(pokemons[pos].description, papas[3]);    
     
-    inserirType(pos, array[4], array[5]);
+    inserirType(pos, papas[4], papas[5]);
 
-    strcpy(pokemons[pos].abilities, array[6]);        
-    pokemons[pos].weight = atof(array[7]);            
-    pokemons[pos].height = atof(array[8]);           
-    pokemons[pos].captureRate = atoi(array[9]);       
-    array[10][0] == '1' ? strcpy(pokemons[pos].legendary, "true") : strcpy(pokemons[pos].legendary, "false");
+    strcpy(pokemons[pos].abilities, papas[6]);        
+    pokemons[pos].weight = atof(papas[7]);            
+    pokemons[pos].height = atof(papas[8]);           
+    pokemons[pos].captureRate = atoi(papas[9]);       
+    papas[10][0] == '1' ? strcpy(pokemons[pos].legendary, "true") : strcpy(pokemons[pos].legendary, "false");
 
-    setCaptureDate(array[11], pos);  
+    setCaptureDate(papas[11], pos);  
       
 
     pos++;
 
-    freeSplit(array);
+    freeSplit(papas);
 
 }
 
@@ -214,18 +215,114 @@ void importDB(char *fileName)
     fclose(arq);
 }
 
+Pokemon clone(Pokemon x)
+{
+    Pokemon clonned;
+
+    // Copiando campos primitivos
+    clonned.id = x.id;
+    clonned.generation = x.generation;
+    clonned.nAbilities = x.nAbilities;
+    clonned.weight = x.weight;
+    clonned.height = x.height;
+    clonned.captureRate = x.captureRate;
+
+    // Copiando campos que são strings
+    strcpy(clonned.name, x.name);
+    strcpy(clonned.description, x.description);
+    strcpy(clonned.abilities, x.abilities);
+    strcpy(clonned.legendary, x.legendary);
+
+    // Copiando as estruturas internas (tipos e data)
+    strcpy(clonned.types.type1, x.types.type1);
+    strcpy(clonned.types.type2, x.types.type2);
+
+    clonned.captureDate.dia = x.captureDate.dia;
+    clonned.captureDate.mes = x.captureDate.mes;
+    clonned.captureDate.ano = x.captureDate.ano;
+
+    return clonned;
+}
+
+
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
+
+Pokemon* array;
+int comparacoes = 0;
+int movimentacoes = 0;
+
+void swap(int i, int j)
+{
+    Pokemon tmp = array[i];
+    array[i] = array[j];
+    array[j] = tmp;
+
+    movimentacoes++;
+
+}
+
+bool compare(Pokemon x, Pokemon y)
+{
+    comparacoes++;
+    //comparacao
+}
+
+
+
+
 
 int main()
 {
     //Pokemon fullBD[801];
     importDB("/tmp/pokemon.csv");
 
+    int ids[100];
+    
     char input[80];
+    int len = 0;
     scanf(" %s", input);
     while(strcmp(input, "FIM"))
     {
-        printPokemon(pokemons, atoi(input) - 1);
+        ids[len] = atoi(input) - 1;
+        len++;
         scanf(" %s", input);
     }
+
+    array = malloc(len*sizeof(Pokemon));
+
+    
+    for(int i = 0; i < len; i++)
+    {
+        array[i] = clone(pokemons[ids[i]]);
+    }
+
+    clock_t inicio = clock();
+    //ordenacao code
+    clock_t final = clock();
+
+    for(int i = 0; i < len; i++)
+    {
+        printPokemon(array[i]);
+    }
+
+
+    free(array);
+
+    double tempo = ((double)(final - inicio)) / (CLOCKS_PER_SEC/1000);
+
+    FILE *fw = fopen("800643_Nome.txt", "w");
+    if (fw != NULL)
+    {
+        fprintf(fw, "Matrícula: 800643 |\tTempo: %.5fms |\tComparações: %d |\tMovimentações: %d\n", tempo, comparacoes, movimentacoes*3);
+        fclose(fw);
+    }
+    else
+    {
+        printf("Erro ao abrir o arquivo.\n");
+    }
+
+
+    
+
+
 }

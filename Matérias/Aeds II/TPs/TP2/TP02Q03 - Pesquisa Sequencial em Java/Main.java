@@ -330,6 +330,7 @@ public class Main
         }
 
         array = new Pokemon[x];
+        
         for(int i = 0; i < x; i++)
         {
             array[i] = fullDB[numeros[i] - 1].myClone();
