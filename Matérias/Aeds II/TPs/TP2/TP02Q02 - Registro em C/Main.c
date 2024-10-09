@@ -128,13 +128,12 @@ void setCaptureDate(char *dateOfBirth, int x)
 
 }
 
-Pokemon ler(char *string)
+void ler(char *string)
 {
 
     char **array = split(";", string);
 
     static int pos = 0;
-    Pokemon x;
 
     pokemons[pos].id = atoi(array[0]);              
     pokemons[pos].generation = atoi(array[1]);
@@ -156,7 +155,6 @@ Pokemon ler(char *string)
 
     freeSplit(array);
 
-    return x;
 }
 
 char* handleLine(char* line){
