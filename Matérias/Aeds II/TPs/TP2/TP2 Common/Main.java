@@ -10,22 +10,26 @@ public class Main
     public static Pokemon[] array;
     public static TP tp = new TP();
 
-    public static boolean pesquisaSequencial(String input)
+    public static void swap(int i, int j)
     {
-        boolean resp = false;
+        Pokemon tmp = array[i];
+        array[i] = array[j];
+        array[j] = tmp;
 
-        for(int i = 0; i < array.length; i++)
-        {
-            tp.addComp(1);
-            if(array[i].getName().equals(input))
-            {
-                resp = true;
-                break;
-            }
-        }   
-
-        return resp;
+        tp.addMov(3);
     }
+
+    public static boolean compare(int x, int y)
+    {
+        //compare method
+    }
+
+    public static void method(int len)
+    {
+       //sort or search method
+    }
+
+
     public static void main(String args[])
     {
         fullDB = Pokemon.readDb();
@@ -33,16 +37,17 @@ public class Main
         Scanner scanf = new Scanner(System.in);
 
         int numeros[] = new int[100];
-        int x = 0;
+        int len = 0;
 
         for(String input = scanf.nextLine();!input.equals("FIM"); input = scanf.nextLine())
         {
-            numeros[x] = Integer.parseInt(input);
-            x++;    
+            numeros[len] = Integer.parseInt(input);
+            len++;    
         }
 
-        array = new Pokemon[x];
-        for(int i = 0; i < x; i++)
+        array = new Pokemon[len];
+
+        for(int i = 0; i < len; i++)
         {
             array[i] = fullDB[numeros[i] - 1].myClone();
         }
@@ -50,12 +55,15 @@ public class Main
         //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
         tp.startTime();
-        for(String input = scanf.nextLine();!input.equals("FIM"); input = scanf.nextLine())
-        {
-            System.out.println(pesquisaSequencial(input) ? "SIM" : "NAO");
-        }
+        //method()
         tp.endTime();
+
+        for(int i = 0; i < len; i++)
+        {
+            array[i].mostrar();
+        }
         
+        tp.typeFile("800643_name.txt");
 
         scanf.close();
 

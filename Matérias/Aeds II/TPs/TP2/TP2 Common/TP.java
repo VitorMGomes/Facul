@@ -53,7 +53,7 @@ class TP
             PrintWriter write = new PrintWriter(new FileWriter(name));
     
             write.printf("Matrícula: 800643\t");
-            write.printf("Tempo de execução: " + Time() + "\t");
+            write.printf("Tempo de execução: " + Time() + "ms" + "\t");
             write.printf("Comparações: " + comp + "\t");
             write.printf("Movimentações: " + mov);
     
