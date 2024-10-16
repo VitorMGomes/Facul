@@ -339,80 +339,80 @@ void swap(Character array[], int i, int j)
     movimentacoes+=3;
 }
 
-void constroi(Character *personagem, int tamHeap, int i) {
-    while (i > 1) {
-        int pai = i / 2;
-        comparacoes+=2;
-        if (strcmp(personagem[i].hairColour, personagem[pai].hairColour) > 0 || 
-           (strcmp(personagem[i].hairColour, personagem[pai].hairColour) == 0 &&
-            strcmp(personagem[i].name, personagem[pai].name) > 0)) {
-            swap(personagem, i, pai);
-            i = pai;
+    void constroi(Character *personagem, int tamHeap, int i) {
+        while (i > 1) {
+            int pai = i / 2;
+            comparacoes+=2;
+            if (strcmp(personagem[i].hairColour, personagem[pai].hairColour) > 0 || 
+            (strcmp(personagem[i].hairColour, personagem[pai].hairColour) == 0 &&
+                strcmp(personagem[i].name, personagem[pai].name) > 0)) {
+                swap(personagem, i, pai);
+                i = pai;
+            } else {
+                break;
+            }
+        }
+    }
+
+    int getMaiorFilho(Character *wizard, int i, int tamHeap) {
+        int filhoEsq = 2 * i;
+        int filhoDir = 2 * i + 1;
+        if (filhoDir > tamHeap) return filhoEsq; // Sem filho direito
+        if (strcmp(wizard[filhoEsq].hairColour, wizard[filhoDir].hairColour) > 0 || 
+        (strcmp(wizard[filhoEsq].hairColour, wizard[filhoDir].hairColour) == 0 &&
+            strcmp(wizard[filhoEsq].name, wizard[filhoDir].name) > 0)) {
+            return filhoEsq;
         } else {
-            break;
-        }
-    }
-}
-
-int getMaiorFilho(Character *wizard, int i, int tamHeap) {
-    int filhoEsq = 2 * i;
-    int filhoDir = 2 * i + 1;
-    if (filhoDir > tamHeap) return filhoEsq; // Sem filho direito
-    if (strcmp(wizard[filhoEsq].hairColour, wizard[filhoDir].hairColour) > 0 || 
-       (strcmp(wizard[filhoEsq].hairColour, wizard[filhoDir].hairColour) == 0 &&
-        strcmp(wizard[filhoEsq].name, wizard[filhoDir].name) > 0)) {
-        return filhoEsq;
-    } else {
-        return filhoDir;
-    }
-}
-
-void reconstroi(Character *wizard, int tamHeap) {
-    int i = 1;
-    while (i <= (tamHeap / 2)) {
-        int filho = getMaiorFilho(wizard, i, tamHeap);
-        comparacoes+=3;
-        if (strcmp(wizard[i].hairColour, wizard[filho].hairColour) < 0 ||
-           (strcmp(wizard[i].hairColour, wizard[filho].hairColour) == 0 &&
-            strcmp(wizard[i].name, wizard[filho].name) < 0)) {
-            swap(wizard, i, filho);
-            i = filho;
-        } else {
-            break;
-        }
-    }
-}
-
-void heapsortParcial(Character *wizard, int n) {
-    Character* tmp = (Character*) malloc((n+1) * sizeof(Character));
-    for (int i = 0; i < n; i++) {
-        tmp[i+1] = wizard[i];
-    }
-
-    int k = 10;
-    for (int tamHeap = 2; tamHeap <= k; tamHeap++) {
-        constroi(tmp, tamHeap, tamHeap);
-    }
-
-    for (int i = k + 1; i <= n; i++) {
-        if (strcmp(tmp[i].hairColour, tmp[1].hairColour) < 0) {
-            swap(tmp, i, 1);
-            reconstroi(tmp, 10);
+            return filhoDir;
         }
     }
 
-    int tamHeap = k;
-    while (tamHeap > 1) {
-        swap(tmp, 1, tamHeap);
-        tamHeap--;
-        reconstroi(tmp, tamHeap);
+    void reconstroi(Character *wizard, int tamHeap) {
+        int i = 1;
+        while (i <= (tamHeap / 2)) {
+            int filho = getMaiorFilho(wizard, i, tamHeap);
+            comparacoes+=3;
+            if (strcmp(wizard[i].hairColour, wizard[filho].hairColour) < 0 ||
+            (strcmp(wizard[i].hairColour, wizard[filho].hairColour) == 0 &&
+                strcmp(wizard[i].name, wizard[filho].name) < 0)) {
+                swap(wizard, i, filho);
+                i = filho;
+            } else {
+                break;
+            }
+        }
     }
 
-    for (int i = 0; i < n; i++) {
-        wizard[i] = tmp[i+1];
+    void heapsortParcial(Character *wizard, int n) {
+        Character* tmp = (Character*) malloc((n+1) * sizeof(Character));
+        for (int i = 0; i < n; i++) {
+            tmp[i+1] = wizard[i];
+        }
+
+        int k = 10;
+        for (int tamHeap = 2; tamHeap <= k; tamHeap++) {
+            constroi(tmp, tamHeap, tamHeap);
+        }
+
+        for (int i = k + 1; i <= n; i++) {
+            if (strcmp(tmp[i].hairColour, tmp[1].hairColour) < 0) {
+                swap(tmp, i, 1);
+                reconstroi(tmp, 10);
+            }
+        }
+
+        int tamHeap = k;
+        while (tamHeap > 1) {
+            swap(tmp, 1, tamHeap);
+            tamHeap--;
+            reconstroi(tmp, tamHeap);
+        }
+
+        for (int i = 0; i < n; i++) {
+            wizard[i] = tmp[i+1];
+        }
+        free(tmp);
     }
-    free(tmp);
-}
 
 // gcc programa.c -o programa
 // ./programa < entrada.in > saida.out
