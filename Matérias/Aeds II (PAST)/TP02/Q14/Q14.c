@@ -374,7 +374,7 @@ void countingSortByDigit(Character *wizard, int length, int digit) {
 
     for (int i = 0; i < base; i++) {
         count[i] = 0;
-    }
+    }   
 
     for (int i = 0; i < length; i++) {
         int digitValue = (*wizard[i].id / digit) % base;
