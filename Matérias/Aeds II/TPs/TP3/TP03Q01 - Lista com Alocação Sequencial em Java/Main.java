@@ -394,10 +394,9 @@ class Lista {
         return resp;
     }
 
-    public void mostrar()
-    {
-        for(int i = 0; i < tam; i++)
-        {
+    public void mostrar() {
+        for (int i = 0; i < tam; i++) {
+            System.out.print("[" + i + "] ");
             array[i].mostrar();
         }
     }
@@ -408,23 +407,55 @@ public class Main {
 
     public static Pokemon[] fullDB = new Pokemon[801];
 
-    public static void operacao(String[] input)
+    public static void printRemovido(Pokemon x)
     {
-        if(input.length == 1)
-        {
+        System.out.println("(R) " + x.getName());
+    }
 
-        }
-        else if(input.length == 2)
+    public static void operacao(String[] input, Lista lista) {
+        
+        try
         {
-            
-        }
-        else if(input.length == 3)
-        {
+            if (input[0].equals("RI"))
+            {
+                Pokemon resp = lista.removerInicio();
+                printRemovido(resp);
+                
+            }
+            else if (input[0].equals("RF"))
+            {
+                Pokemon resp = lista.removerFim();
+                printRemovido(resp);
+            }
+            else if (input[0].equals("R*"))
+            {
+                int pos = Integer.parseInt(input[1]);
+                Pokemon resp = lista.remover(pos);
+                printRemovido(resp);
+            }
+            else if (input[0].equals("II"))
+            {
+                Pokemon x = fullDB[Integer.parseInt(input[1]) - 1].myClone();
+                lista.inserirInicio(x);
+            } 
+            else if (input[0].equals("IF"))
+            {
+                Pokemon x = fullDB[Integer.parseInt(input[1]) - 1].myClone();
+                lista.inserirFim(x);
+            }
+            else if (input[0].equals("I*"))
+            {
+                int pos = Integer.parseInt(input[1]);
+                Pokemon x = fullDB[Integer.parseInt(input[2]) - 1].myClone();
+                lista.inserir(x, pos);
+            }
+            else
+            {
+                System.out.println("Erro no input");
+            }
+        } catch(Exception e) {
 
-        }
-        else
-        {
-            System.out.println("Erro no input");
+            System.err.println(e);
         }
     }
 
@@ -453,20 +484,18 @@ public class Main {
             System.err.println(e.getMessage());
         }
 
-        
         int num = scanf.nextInt();
-        
-        for(int i = 0; i < num; i++)
-        {
+        scanf.nextLine();
+
+        for (int i = 0; i < num; i++) {
             String input = scanf.nextLine();
             String[] splitted = input.split(" ");
-            operacao(splitted);
+            operacao(splitted, list);
 
         }
-        
-        
+
         list.mostrar();
-        
+
         scanf.close();
 
     }
