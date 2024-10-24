@@ -341,13 +341,15 @@ class Lista {
         } else if (pos == tam) {
             inserirFim(x);
         }
+        else
+        {
+            for (int i = tam; i > pos; i--) {
+                array[i] = array[i - 1];
+            }
 
-        for (int i = tam; i > pos; i--) {
-            array[i] = array[i - 1];
+            array[pos] = x;
+            tam++;
         }
-
-        array[pos] = x;
-        tam++;
     }
 
     public Pokemon remover(int pos) throws Exception {
