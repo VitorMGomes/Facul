@@ -409,8 +409,8 @@ int main()
 
     // mostrar();
 
-    int n;
-    scanf("%i", &n);
+    int p;
+    scanf("%i", &p);
 
     for (int i = 0; i < n; i++)
     {
@@ -430,7 +430,7 @@ int main()
             // getchar();
 
             enqueue(encontrar(nome, listaCSV));
-            printf(">> Year Birthday Average: %i\n", calcMedia());
+            printf("Média: %i\n", calcMedia());
         }
         else
         {

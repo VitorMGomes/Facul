@@ -244,167 +244,91 @@ Pokemon clone(Pokemon x)
 
 typedef struct Celula
 {
-    Pokemon poke;
+    Pokemon elemento;
     struct Celula *prox;
 } Celula;
 
-Celula *novaCelula(Pokemon poke)
+Celula *novaCelula(Pokemon elemento)
 {
     Celula *nova = (Celula *)malloc(sizeof(Celula));
-    nova->poke = poke;
+    nova->elemento = elemento;
     nova->prox = NULL;
     return nova;
 }
 
 Celula *primeiro;
 Celula *ultimo;
+int n;
 
 void start()
 {
-    Pokemon x;
-    primeiro = novaCelula(x);
+    n = 0;
+    primeiro = novaCelula(pokemons[0]);
     ultimo = primeiro;
-}
-
-void inserirInicio(Pokemon x)
-{
-    Celula *tmp = novaCelula(x);
-    tmp->prox = primeiro->prox;
-    primeiro->prox = tmp;
-    if (primeiro == ultimo)
-    {
-        ultimo = tmp;
-    }
-    tmp = NULL;
-}
-
-void inserirFim(Pokemon x)
-{
-    ultimo->prox = novaCelula(x);
-    ultimo = ultimo->prox;
-}
-
-Pokemon removerInicio()
-{
-    if (primeiro == ultimo)
-    {
-        errx(1, "Erro ao remover!");
-    }
-
-    Celula *tmp = primeiro;
-    primeiro = primeiro->prox;
-    Pokemon resp = primeiro->poke;
-    tmp->prox = NULL;
-    free(tmp);
-    tmp = NULL;
-    return resp;
-}
-
-Pokemon removerFim()
-{
-    if (primeiro == ultimo)
-    {
-        errx(1, "Erro ao remover!");
-    }
-
-    Celula *i;
-    for (i = primeiro; i->prox != ultimo; i = i->prox);
-
-    Pokemon resp = ultimo->poke;
-    ultimo = i;
-    free(ultimo->prox);
-    i = ultimo->prox = NULL;
-
-    return resp;
-}
-
-int tamanho()
-{
-    int tamanho = 0;
-    Celula *i;
-    for (i = primeiro; i != ultimo; i = i->prox, tamanho++);
-    return tamanho;
-}
-
-void inserir(Pokemon x, int pos)
-{
-
-    int tam = tamanho();
-
-    if (pos < 0 || pos > tam)
-    {
-        errx(1, "Erro ao inserir posicao (%d/ tamanho = %d) invalida!", pos, tam);
-    }
-    else if (pos == 0)
-    {
-        inserirInicio(x);
-    }
-    else if (pos == tam)
-    {
-        inserirFim(x);
-    }
-    else
-    {
-        int j;
-        Celula *i = primeiro;
-        for (j = 0; j < pos; j++, i = i->prox)
-            ;
-
-        Celula *tmp = novaCelula(x);
-        tmp->prox = i->prox;
-        i->prox = tmp;
-        tmp = i = NULL;
-    }
-}
-
-Pokemon remover(int pos)
-{
-    Pokemon resp;
-    int tam = tamanho();
-
-    if (primeiro == ultimo)
-    {
-        errx(1, "Erro ao remover (vazia)!");
-    }
-    else if (pos < 0 || pos >= tam)
-    {
-        errx(1, "Erro ao remover posicao (%d/ tamanho = %d) invalida!", pos, tam);
-    }
-    else if (pos == 0)
-    {
-        resp = removerInicio();
-    }
-    else if (pos == tam - 1)
-    {
-        resp = removerFim();
-    }
-    else
-    {
-        // Caminhar ate a posicao anterior a insercao
-        Celula *i = primeiro;
-        int j;
-        for (j = 0; j < pos; j++, i = i->prox)
-            ;
-
-        Celula *tmp = i->prox;
-        resp = tmp->poke;
-        i->prox = tmp->prox;
-        tmp->prox = NULL;
-        free(tmp);
-        i = tmp = NULL;
-    }
-    return resp;
 }
 
 void mostrar()
 {
-    int count= 0;
     Celula *i;
+    int count = 0;
     for (i = primeiro->prox; i != NULL; i = i->prox, count++)
     {
-        printf("[%d] ", count);
-        printPokemon(i->poke);
+        printf("[%i] ", count);
+        printPokemon(i->elemento);
     }
+}
+
+Pokemon dequeue()
+{
+    if (primeiro == ultimo)
+    {
+        printf("Erro ao remover!\n");
+        exit(1);
+    }
+
+    Celula *tmp = primeiro->prox; 
+    Pokemon resp = tmp->elemento; 
+
+    primeiro->prox = tmp->prox;
+
+    if (tmp == ultimo)
+    {
+        ultimo = primeiro;
+    }
+
+    free(tmp);
+    n--;
+    return resp;
+}
+
+void enqueue(Pokemon x)
+{
+    if (n == 5)
+    {
+        dequeue();
+    }
+
+    ultimo->prox = novaCelula(x);
+    ultimo = ultimo->prox;
+    n++;
+}
+
+
+void printMedia() {
+    int sum = 0;
+    int count = 0;
+    double media = 0.0;
+
+    if (n > 0) {
+        Celula *tmp = primeiro->prox;
+        while (tmp != NULL) {
+            sum += tmp->elemento.captureRate;
+            count++;
+            tmp = tmp->prox;
+        }
+        media = (double)sum / count;
+    }
+    printf("Média: %.0lf\n", round(media));
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -412,46 +336,22 @@ void mostrar()
 void comando(char *id)
 {
     char **splitted = split(" ", id);
-    if (strcmp(splitted[0], "I*") == 0)
-    {
-        int pos = atoi(splitted[1]);
-        int idPoke = atoi(splitted[2]) - 1;
-
-        Pokemon x = pokemons[idPoke];
-
-        inserir(x, pos);
-    }
-    else if (strcmp(splitted[0], "II") == 0)
+    
+    if (id[0] == 'I')
     {
         int idPoke = atoi(splitted[1]) - 1;
-
         Pokemon x = pokemons[idPoke];
-        inserirInicio(x);
-    }
-    else if (strcmp(splitted[0], "IF") == 0)
-    {
-        int idPoke = atoi(splitted[1]) - 1;
+        enqueue(x);
 
-        Pokemon x = pokemons[idPoke];
+        printMedia();
+    }
+    else
+    {
+        Pokemon x = dequeue();
+        printf("(R) %s\n", x.name);
+    }
 
-        inserirFim(x);
-    }
-    else if (strcmp(splitted[0], "R*") == 0)
-    {
-        int pos = atoi(splitted[1]);
-        Pokemon x = remover(pos);
-        printf("(R) %s\n", x.name);
-    }
-    else if (strcmp(splitted[0], "RI") == 0)
-    {
-        Pokemon x = removerInicio();
-        printf("(R) %s\n", x.name);
-    }
-    else if (strcmp(splitted[0], "RF") == 0)
-    {
-        Pokemon x = removerFim();
-        printf("(R) %s\n", x.name);
-    }
+    free(splitted);
 }
 
 int main()
@@ -473,9 +373,13 @@ int main()
 
     start();
 
+    //printf("%d", len);
+
     for (int i = 0; i < len; i++)
     {
-        inserirFim(pokemons[ids[i]]);
+        //puts("ERROOOOO");
+        enqueue(pokemons[ids[i]]);
+        printMedia();
     }
 
     int num;
@@ -486,9 +390,12 @@ int main()
     {
 
         scanf(" %20[^\n]", id);
-        // printf("%s\n", id);
+        //printf("%s\n", id);
+
         comando(id);
     }
+    
+    printf("\n");
 
     mostrar();
 }
