@@ -1,64 +1,6 @@
-import java.time.*;
-import java.util.*;
 import java.io.*;
 import java.text.*;
-
-class TP {
-    private long startTime, endTime;
-
-    public void startTime() {
-        startTime = System.nanoTime();
-    }
-
-    public void endTime() {
-        endTime = System.nanoTime();
-    }
-
-    public double Time() {
-        return (endTime - startTime) / 1000000;
-    }
-
-    private int comp = 0, mov = 0;
-
-    public void addMov(int i) {
-        this.mov += i;
-    }
-
-    public void addComp(int i) {
-        this.comp += i;
-    }
-
-    public void pesquisaFile(String name) {
-        try {
-            PrintWriter write = new PrintWriter(new FileWriter(name));
-
-            write.printf("Matrícula: 800643\t");
-            write.printf("Tempo de execução: " + Time() + "ms" + "\t");
-            write.printf("Comparações: " + comp);
-
-            write.close();
-        } catch (IOException e) {
-            System.out.println("Erro ao escrever no arquivo: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-
-    public void ordenacaoFile(String name) {
-        try {
-            PrintWriter write = new PrintWriter(new FileWriter(name));
-
-            write.printf("Matrícula: 800643\t");
-            write.printf("Tempo de execução: " + Time() + "ms" + "\t");
-            write.printf("Comparações: " + comp + "\t");
-            write.printf("Movimentações: " + mov);
-
-            write.close();
-        } catch (IOException e) {
-            System.out.println("Erro ao escrever no arquivo: " + e.getMessage());
-            e.printStackTrace();
-        }
-    }
-}
+import java.util.*;
 
 class Pokemon {
 
@@ -354,126 +296,237 @@ class Pokemon {
 
 }
 
-class No {
-    Pokemon x;
-    No dir, esq;
+class TP {
+    private long startTime, endTime;
 
-    public No()
-    {
-        this.x = null;
-        this.dir = null;
-        this.esq = null;
+    public void startTime() {
+        startTime = System.nanoTime();
     }
 
-    public No(Pokemon poke)
-    {
-        this.x = poke;
-        this.dir = null;
-        this.esq = null;
+    public void endTime() {
+        endTime = System.nanoTime();
     }
 
+    public double Time() {
+        return (endTime - startTime) / 1000000;
+    }
+
+    private int comp = 0, mov = 0;
+
+    public void addMov(int i) {
+        this.mov += i;
+    }
+
+    public void addComp(int i) {
+        this.comp += i;
+    }
+
+    public void pesquisaFile(String name) {
+        try {
+            PrintWriter write = new PrintWriter(new FileWriter(name));
+
+            write.printf("Matrícula: 800643\t");
+            write.printf("Tempo de execução: " + Time() + "ms" + "\t");
+            write.printf("Comparações: " + comp);
+
+            write.close();
+        } catch (IOException e) {
+            System.out.println("Erro ao escrever no arquivo: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    public void ordenacaoFile(String name) {
+        try {
+            PrintWriter write = new PrintWriter(new FileWriter(name));
+
+            write.printf("Matrícula: 800643\t");
+            write.printf("Tempo de execução: " + Time() + "ms" + "\t");
+            write.printf("Comparações: " + comp + "\t");
+            write.printf("Movimentações: " + mov);
+
+            write.close();
+        } catch (IOException e) {
+            System.out.println("Erro ao escrever no arquivo: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+}
+
+class noSec{
+	public String data;
+	public noSec esq;
+	public noSec dir;
+
+	noSec(String x){
+		data = x;
+		esq = null;
+		dir = null;
+	}
 
 }
 
-class BST {
-    No raiz;
+class treeSec {
+    public noSec root;
 
-    public BST() {
-        this.raiz = null;
+    treeSec() {
+        root = null;
     }
 
-    void inserir(Pokemon poke) {
-        try {
-            raiz = inserir(poke, raiz);
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
+    public void add(String x, TP tp) {
+        root = add(x, root, tp);
     }
 
-    No inserir(Pokemon poke, No no) throws Exception {
-        if (no == null) {
-            no = new No(poke);
-        } else if (poke.getName().compareTo(no.x.getName()) > 0) {
-            no.dir = inserir(poke, no.dir);
-        } else if (poke.getName().compareTo(no.x.getName()) < 0) {
-            no.esq = inserir(poke, no.esq);
-        } else {
-            throw new Exception("Erro ao inserir!");
-        }
-
-        return no;
-    }
-
-    boolean pesquisar(String string, TP tp) {
-        System.out.println(string);
-        System.out.print("=>raiz ");
-        return pesquisar(string, raiz, tp);
-    }
-
-    boolean pesquisar(String string, No no, TP tp) {
-        boolean resp;
-        tp.addComp(1);
-        if (no == null) {
-            resp = false;
+    private noSec add(String x, noSec i, TP tp) {
+        if (i == null) {
             tp.addComp(1);
-        } else if (string.compareTo(no.x.getName()) == 0) {
-            resp = true;
-            tp.addComp(2);
-        } else if (string.compareTo(no.x.getName()) > 0) {
-            System.out.print("dir ");
-            tp.addComp(3);
-            resp = pesquisar(string, no.dir, tp);
+            i = new noSec(x);
+        } else if (x.compareTo(i.data) < 0) {
+            tp.addComp(1);
+            i.esq = add(x, i.esq, tp);
         } else {
-            tp.addComp(3);
-            System.out.print("esq ");
-            resp = pesquisar(string, no.esq, tp);
+            tp.addComp(1);
+            i.dir = add(x, i.dir, tp);
         }
-
-        return resp;
+        return i;
     }
 
+    public boolean search(String x, TP tp) {
+        return search(x, root, tp);
+    }
+
+    private boolean search(String x, noSec i, TP tp) {
+        while (i != null) {
+            if (i.data.equals(x)) {
+                tp.addComp(1);
+                return true;
+            } else if (x.compareTo(i.data) > 0) {
+                tp.addComp(1);
+                System.out.print("dir ");
+                i = i.dir;
+            } else {
+                tp.addComp(1);
+                System.out.print("esq ");
+                i = i.esq;
+            }
+        }
+        return false;
+    }
+}
+
+
+class Node{
+	public int data;
+	public treeSec sRoot;
+	public Node esq;
+	public Node dir;
+
+	public Node(int x){
+		sRoot = new treeSec();
+		data = x;
+		esq = null;
+		dir = null;
+	}
+
+}
+
+class Tree {
+    public Node root;
+
+    public Tree() {
+        root = null;
+    }
+
+    public boolean walk(String str, TP tp) {
+        System.out.println("=> " + str );
+        System.out.print("raiz ");
+        boolean[] found = new boolean[1]; // Usado para rastrear se o elemento foi encontrado
+        found[0] = false;
+        walk(root, str, found, tp);
+        return found[0];
+    }
+
+    private void walk(Node i, String str, boolean[] found, TP tp) {
+        if (i != null) {
+            found[0] = i.sRoot.search(str, tp);
+            if (!found[0]) {
+                System.out.print(" ESQ ");
+                walk(i.esq, str, found, tp);
+            }
+            if (!found[0]) {
+                System.out.print(" DIR ");
+                walk(i.dir, str, found, tp);
+            }
+        }
+    }
+
+    public void addStart(int x) {
+        root = addStart(x, root);
+    }
+
+    private Node addStart(int x, Node i) {
+        if (i == null) {
+            i = new Node(x);
+        } else if (x < i.data) {
+            i.esq = addStart(x, i.esq);
+        } else if (x > i.data) {
+            i.dir = addStart(x, i.dir);
+        }
+        return i;
+    }
+
+    public void add(int x, String name, TP tp) {
+        root = add(x, root, name, tp);
+    }
+
+    private Node add(int x, Node i, String name, TP tp) {
+        if (i == null) {
+            tp.addComp(1);
+            i = new Node(x);
+            i.sRoot.add(name, tp);
+        } else if (x < i.data) {
+            tp.addComp(1);
+            i.esq = add(x, i.esq, name, tp);
+        } else if (x > i.data) {
+            tp.addComp(1);
+            i.dir = add(x, i.dir, name, tp);
+        } else {
+            i.sRoot.add(name, tp);
+        }
+        return i;
+    }
 }
 
 public class Main {
-
-    public static Pokemon[] fullDB = new Pokemon[801];
-
-    public static void main(String args[]) {
-        fullDB = Pokemon.readDb();
-
-        BST arvore = new BST();
-
+    public static void main(String[] args) {
+        Tree arvore = new Tree();
+        Pokemon[] pokemons = Pokemon.readDb(); // Carrega os pokemons do CSV
         TP tp = new TP();
 
         Scanner scanf = new Scanner(System.in);
 
-        int numeros[] = new int[100];
-        int len = 0;
-
-        for (String input = scanf.nextLine(); !input.equals("FIM"); input = scanf.nextLine()) {
-            numeros[len] = Integer.parseInt(input);
-            len++;
+        int[] numeros = {7, 3, 11, 1, 5, 9, 13, 0, 2, 4, 6, 8, 10, 12, 14};
+        for (int num : numeros) {
+            arvore.addStart(num);
         }
 
-        for (int i = 0; i < len; i++) {
-            arvore.inserir(fullDB[numeros[i] - 1].myClone());
+        // Inserir pokemons na árvore
+        String input = scanf.nextLine();
+        while (!input.equals("FIM")) {
+            int id = Integer.parseInt(input) - 1;
+            arvore.add((pokemons[id].getCaptureRate() % 15), pokemons[id].getName(), tp);
+            input = scanf.nextLine();
         }
 
-
-        String name = scanf.nextLine();
-
-        tp.startTime();
-        while(!name.equals("FIM"))
-        {
-            System.out.print(arvore.pesquisar(name, tp) ? "SIM\n" : "NAO\n");
-
-            name = scanf.nextLine();
+        input = scanf.nextLine();
+        while (!input.equals("FIM")) {
+            System.out.println(arvore.walk(input, tp) ? "SIM" : "NAO");
+            input = scanf.nextLine();   
         }
-        tp.endTime();
 
-        tp.pesquisaFile("800643_arvoreBinaria.txt");
+        tp.pesquisaFile("800643_arvoreArvore.txt");
 
         scanf.close();
-
     }
 }
+
