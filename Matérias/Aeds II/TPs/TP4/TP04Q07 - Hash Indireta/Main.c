@@ -241,123 +241,109 @@ Pokemon clone(Pokemon x)
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
-typedef struct No{
-    Pokemon poke;
-    struct No* dir;
-    struct No* esq;
-}No;
+typedef struct Celula {
+    Pokemon pokemon;       // Estrutura que armazena o Pokémon
+    struct Celula *prox;   // Ponteiro para a próxima célula da lista
+} Celula;
 
-No* construtorNo(Pokemon poke){
-    No* i = (No*) malloc(sizeof(No));
-    i->poke = poke;
-    i->dir = i->esq = NULL;
+// Estrutura da lista (Pokedex)
+typedef struct {
+    Celula *primeiro;      // Ponteiro para o primeiro elemento da lista
+    Celula *ultimo;        // Ponteiro para o último elemento da lista
+    int numPokemonsPokedex; // Contador de elementos na lista
+} Lista;
 
-    return i;
+Celula* novaCelula(Pokemon* pokemon) {
+    Celula* nova = (Celula*) malloc(sizeof(Celula));
+    if (pokemon != NULL) {
+        nova->pokemon = *pokemon;  // Copia o Pokémon para a nova célula
+    }
+    nova->prox = NULL; // Define o próximo como NULL (último elemento)
+    return nova;
 }
 
-typedef struct Avl{
-    No* raiz;
-}Avl;
-
-Avl* construtorAvl(){
-    Avl* i = (Avl*) malloc(sizeof(Avl));
-    i->raiz = NULL;
-
-    return i;
+Lista* startLista() {
+    Lista* pokedex = (Lista*) malloc(sizeof(Lista));
+    if (pokedex) {
+        pokedex->primeiro = novaCelula(NULL); // Célula sentinela no início da lista
+        pokedex->ultimo = pokedex->primeiro;  // Define o último como a sentinela no início
+        pokedex->numPokemonsPokedex = 0;      // Inicializa o contador de Pokémons
+    }
+    return pokedex;
 }
 
-int compare(Pokemon a, Pokemon b){
-    return strcmp(a.name, b.name);
-} 
-
-int comparar(char nome[], Pokemon b){
-    return strcmp(nome, b.name);
-} 
-
-No* rotacaoDir(No* i){
-        No* tmp = i->esq;
-        i->esq = tmp->dir;
-        tmp->dir = i;
-
-        return tmp;
-    }
-
-No* rotacaoEsq(No* i){
-        No* tmp = i->dir;
-        i->dir = tmp->esq;
-        tmp->esq = i;
-
-        return tmp;
-    }
-
-int getAltura(No* i){
-    if(i == NULL){
-        return -1;
-    }
-    int alturaEsq = getAltura(i->esq) + 1;
-    int alturaDir = getAltura(i->dir) + 1;
-
-    int altura = (alturaEsq > alturaDir ? alturaEsq : alturaDir);
-    return altura; 
+void inserirFim(Lista *pokedex, Pokemon *pokemon) {
+    pokedex->ultimo->prox = novaCelula(pokemon); // Liga a última célula ao novo Pokémon
+    pokedex->ultimo = pokedex->ultimo->prox;     // Atualiza a última posição para o novo Pokémon
+    pokedex->numPokemonsPokedex++;               // Incrementa o contador de Pokémons
 }
 
-int getFator(No* i){
+typedef struct{ 
+    Lista** tabela;
+    int tamanho; 
 
-        int alturaEsq = getAltura(i->esq) + 1;
-        int alturaDir = getAltura(i->dir) + 1;
+} HashIndireta;
 
-        return (alturaDir - alturaEsq);
-
+HashIndireta* start(int tamTab){
+    HashIndireta* hash = (HashIndireta*) malloc(sizeof(HashIndireta));
+    hash->tamanho = tamTab;
+    hash->tabela = (Lista**) malloc(tamTab * sizeof(Lista*));
+    
+    for (int i = 0; i < tamTab; i++) {
+        hash->tabela[i] = startLista(); // Inicializa cada entrada como uma lista
+    }
+    return hash;
 }
 
-No* inserir(No* i, Pokemon poke){
-    if(i == NULL){
-        i = construtorNo(poke);
-    }else if(compare(poke, i->poke) > 0){
-        i->dir = inserir(i->dir, poke);
-    }else if(compare(poke, i->poke) < 0){
-        i->esq = inserir(i->esq, poke);
-    }else{
-        printf("ERRO, VALOR INVALIDO");
+// Função de cálculo do índice hash (ASCII name mod tamTab)
+int calcHash(char *pokemonName, int tamTab) {
+    int somaASCII = 0;
+    for (int i = 0; i < strlen(pokemonName); i++) {
+        somaASCII += pokemonName[i]; // Soma os valores ASCII dos caracteres
     }
+    return somaASCII % tamTab;
+}
 
-    if(getFator(i) == -2){
-            if(getFator(i->esq) == 1){
-                i->esq = rotacaoEsq(i->esq); 
-            }
-            i = rotacaoDir(i);
+// Função para inserir na tabela hash
+void inserirHash(HashIndireta *hash, Pokemon *pokemon) {
+    int indice = calcHash(pokemon->name, hash->tamanho); // Calcula o índice
+    inserirFim(hash->tabela[indice], pokemon);           // Insere no fim da lista do índice
+}
 
-        }else if(getFator(i) == 2){
-            if(getFator(i->dir) == -1){
-                i->dir = rotacaoDir(i->dir);
-            }
-            i = rotacaoEsq(i);
+// Função para buscar na tabela hash
+int buscarHash(HashIndireta *hash, char *pokemonName) {
+    int indice = calcHash(pokemonName, hash->tamanho); // Calcula o índice
+    Lista *lista = hash->tabela[indice];
+    
+    for (Celula *atual = lista->primeiro->prox; atual != NULL; atual = atual->prox) {
+        if (strcmp(atual->pokemon.name, pokemonName) == 0) {
+           printf("(Posicao: %d) ", indice);
+            return 1;
+        }
+    }
+    return 0; // Pokémon não encontrado
+}
+
+void liberarTabelaHash(HashIndireta *hash) {
+    for (int i = 0; i < hash->tamanho; i++) {
+        Lista *lista = hash->tabela[i];
+        Celula *atual = lista->primeiro;
+        
+        // Libera todas as células da lista
+        while (atual != NULL) {
+            Celula *temp = atual;
+            atual = atual->prox;
+            free(temp);
         }
 
-
-
-    return i;
-
-
-}
-
-No* buscar(No* i, char nome[]) {
-    if (i == NULL) {
-        return NULL;
+        // Libera a lista
+        free(lista);
     }
 
-    int cmp = comparar(nome, i->poke);
-    if (cmp == 0) {
-        return i; // Encontrado
-    } else if (cmp < 0) {
-        printf(" esq");
-        return buscar(i->esq, nome);
-    } else {
-        printf(" dir");
-        return buscar(i->dir, nome);
-    }
+    // Libera a tabela e a estrutura hash
+    free(hash->tabela);
+    free(hash);
 }
-
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
 
@@ -366,7 +352,7 @@ int main()
     // Pokemon fullBD[801];
     importDB("/tmp/pokemon.csv");
 
-    Avl* avl = construtorAvl(); // Inicializa a árvore AVL
+    HashIndireta *hash = start(21);
 
     int ids[100];
 
@@ -382,28 +368,22 @@ int main()
 
     for (int i = 0; i < len; i++)
     {
-        avl->raiz = inserir(avl->raiz, pokemons[ids[i]]);
+        inserirHash(hash , &pokemons[ids[i]]);
     }
 
     
 
     char id[20];
     scanf(" %s", id);
-    while (strcmp(id, "FIM"))
+    while (strcmp(id, "FIM") != 0)
     {
-        printf("%s\n", id);
-        printf("raiz");
-        No* result = buscar(avl->raiz, id);
-
-        if(result == NULL)
-        {
-            printf(" NAO\n");
+        printf("=> %s: ", id);
+        if(buscarHash(hash, id)){
+            printf("SIM\n");
+        } else{
+            printf("NAO\n");
         }
-        else{
-            printf(" SIM\n");
-        }
-
-        scanf(" %s", id);
+        scanf("%s", id);
     }
 
 }
